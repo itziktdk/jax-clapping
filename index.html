@@ -2,408 +2,293 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Jax ✌️🐰</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0a0a1a; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
-canvas { display: block; }
-#ui {
-  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-  color: #c77dff; font-size: 1.8em; text-align: center;
+body {
+  background: #0a0a1a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+}
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Stars background */
+.stars {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+.star {
+  position: absolute;
+  width: 3px; height: 3px;
+  background: #c77dff;
+  border-radius: 50%;
+  animation: twinkle 3s ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.title {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #c77dff;
+  font-size: 2em;
   text-shadow: 0 0 20px #9d4edd, 0 0 40px #7b2cbf;
-  z-index: 10; pointer-events: none;
+  z-index: 10;
   animation: glow 2s ease-in-out infinite alternate;
 }
 @keyframes glow {
   from { text-shadow: 0 0 10px #9d4edd; }
   to { text-shadow: 0 0 30px #c77dff, 0 0 60px #7b2cbf; }
 }
-#hint {
-  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-  color: #c77dff88; font-size: 0.9em; z-index: 10; pointer-events: none;
-  animation: fade 3s ease-in-out infinite;
+
+/* JAX SVG CHARACTER */
+.jax-wrapper {
+  position: relative;
+  animation: float 3s ease-in-out infinite;
+  transform: rotate(15deg);
 }
-@keyframes fade { 0%,100%{opacity:0.4} 50%{opacity:0.9} }
+@keyframes float {
+  0%, 100% { transform: rotate(15deg) translateY(0); }
+  50% { transform: rotate(15deg) translateY(-15px); }
+}
+
+svg.jax {
+  width: 320px;
+  height: 450px;
+  filter: drop-shadow(0 0 30px rgba(157, 78, 221, 0.5));
+}
+
+/* Ear animation */
+.ear-left {
+  transform-origin: 130px 80px;
+  animation: ear-flop-l 2s ease-in-out infinite;
+}
+.ear-right {
+  transform-origin: 190px 80px;
+  animation: ear-flop-r 2s ease-in-out infinite;
+}
+@keyframes ear-flop-l {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-5deg); }
+}
+@keyframes ear-flop-r {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(5deg); }
+}
+
+/* V-sign hand wave */
+.v-hand {
+  transform-origin: 250px 150px;
+  animation: wave 1s ease-in-out infinite;
+}
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(8deg); }
+  75% { transform: rotate(-8deg); }
+}
+
+/* Wink */
+.wink-eye {
+  animation: wink 4s ease-in-out infinite;
+}
+@keyframes wink {
+  0%, 85%, 100% { transform: scaleY(1); }
+  90%, 95% { transform: scaleY(0.1); }
+}
+
+/* Leg kick */
+.left-leg {
+  transform-origin: 130px 310px;
+  animation: kick-l 2s ease-in-out infinite;
+}
+.right-leg {
+  transform-origin: 180px 310px;
+  animation: kick-r 2s ease-in-out infinite;
+}
+@keyframes kick-l {
+  0%, 100% { transform: rotate(5deg); }
+  50% { transform: rotate(-5deg); }
+}
+@keyframes kick-r {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
 </style>
 </head>
 <body>
-<div id="ui">🐰 Jax ✌️</div>
-<div id="hint">גרור לסובב 🔄</div>
+<div class="container">
+  <div class="stars" id="stars"></div>
+  <div class="title">✌️ Jax 🐰</div>
+  
+  <div class="jax-wrapper">
+    <svg class="jax" viewBox="0 0 320 450" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#9d4edd"/>
+          <stop offset="100%" style="stop-color:#7b2cbf"/>
+        </linearGradient>
+        <linearGradient id="darkPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#7b2cbf"/>
+          <stop offset="100%" style="stop-color:#5a1d99"/>
+        </linearGradient>
+        <linearGradient id="overallGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#d4465a"/>
+          <stop offset="100%" style="stop-color:#b83a4c"/>
+        </linearGradient>
+        <linearGradient id="yellowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#f5d442"/>
+          <stop offset="100%" style="stop-color:#e6b817"/>
+        </linearGradient>
+        <linearGradient id="earInner" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#e8b4f8"/>
+          <stop offset="100%" style="stop-color:#d4a0e8"/>
+        </linearGradient>
+        <linearGradient id="shoeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#9d4edd"/>
+          <stop offset="100%" style="stop-color:#6a2fa0"/>
+        </linearGradient>
+        <filter id="shadow">
+          <feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="#00000066"/>
+        </filter>
+      </defs>
 
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
-  }
+      <!-- LEFT EAR -->
+      <g class="ear-left">
+        <ellipse cx="120" cy="40" rx="16" ry="55" fill="url(#purpleGrad)" transform="rotate(-15, 120, 80)"/>
+        <ellipse cx="120" cy="40" rx="8" ry="38" fill="url(#earInner)" transform="rotate(-15, 120, 80)"/>
+      </g>
+
+      <!-- RIGHT EAR -->
+      <g class="ear-right">
+        <ellipse cx="200" cy="35" rx="16" ry="55" fill="url(#purpleGrad)" transform="rotate(10, 200, 80)"/>
+        <ellipse cx="200" cy="35" rx="8" ry="38" fill="url(#earInner)" transform="rotate(10, 200, 80)"/>
+      </g>
+
+      <!-- HEAD -->
+      <ellipse cx="160" cy="130" rx="55" ry="50" fill="url(#purpleGrad)" filter="url(#shadow)"/>
+
+      <!-- LEFT EYE (winking) -->
+      <g class="wink-eye" style="transform-origin: 140px 120px">
+        <ellipse cx="140" cy="120" rx="16" ry="12" fill="#f5d442"/>
+        <ellipse cx="140" cy="120" rx="8" ry="10" fill="#1a1a2e"/>
+        <ellipse cx="137" cy="116" rx="3" ry="3" fill="white" opacity="0.8"/>
+      </g>
+
+      <!-- RIGHT EYE -->
+      <ellipse cx="180" cy="118" rx="16" ry="14" fill="#f5d442"/>
+      <ellipse cx="182" cy="118" rx="8" ry="11" fill="#1a1a2e"/>
+      <ellipse cx="179" cy="114" rx="3" ry="3" fill="white" opacity="0.8"/>
+
+      <!-- EYEBROW -->
+      <line x1="170" y1="100" x2="195" y2="104" stroke="#5a1d99" stroke-width="4" stroke-linecap="round"/>
+
+      <!-- BIG GRIN -->
+      <path d="M130 145 Q160 175 190 145" fill="#2a1040" stroke="#2a1040" stroke-width="2"/>
+      <!-- TEETH -->
+      <rect x="148" y="145" width="7" height="10" rx="1" fill="white"/>
+      <rect x="157" y="145" width="7" height="10" rx="1" fill="white"/>
+      <!-- Smirk line -->
+      <path d="M190 145 Q198 140 200 135" fill="none" stroke="#5a1d99" stroke-width="2.5" stroke-linecap="round"/>
+
+      <!-- BODY (purple) -->
+      <ellipse cx="160" cy="210" rx="42" ry="55" fill="url(#purpleGrad)" filter="url(#shadow)"/>
+
+      <!-- OVERALLS -->
+      <path d="M125 220 Q125 280 160 280 Q195 280 195 220 L195 235 Q195 270 160 270 Q125 270 125 235 Z" fill="url(#overallGrad)"/>
+      <!-- Straps -->
+      <rect x="135" y="195" width="8" height="35" rx="3" fill="url(#overallGrad)" transform="rotate(5, 139, 195)"/>
+      <rect x="177" y="195" width="8" height="35" rx="3" fill="url(#overallGrad)" transform="rotate(-5, 181, 195)"/>
+      <!-- Buttons -->
+      <circle cx="138" cy="232" r="4" fill="url(#yellowGrad)"/>
+      <circle cx="182" cy="232" r="4" fill="url(#yellowGrad)"/>
+      <!-- Pocket -->
+      <rect x="148" y="248" width="24" height="15" rx="3" fill="none" stroke="#a03050" stroke-width="1.5"/>
+
+      <!-- LEFT ARM (relaxed, going down/back) -->
+      <g>
+        <!-- Upper arm -->
+        <rect x="85" y="190" width="18" height="50" rx="9" fill="url(#purpleGrad)" transform="rotate(30, 94, 190)"/>
+        <!-- Forearm -->
+        <rect x="68" y="225" width="15" height="45" rx="7" fill="url(#purpleGrad)" transform="rotate(20, 75, 225)"/>
+        <!-- Hand -->
+        <ellipse cx="62" cy="272" rx="13" ry="11" fill="url(#yellowGrad)"/>
+      </g>
+
+      <!-- RIGHT ARM (raised up, V sign!) -->
+      <g class="v-hand">
+        <!-- Upper arm -->
+        <rect x="200" y="180" width="18" height="50" rx="9" fill="url(#purpleGrad)" transform="rotate(-45, 209, 180)"/>
+        <!-- Forearm -->
+        <rect x="230" y="145" width="15" height="45" rx="7" fill="url(#purpleGrad)" transform="rotate(-30, 237, 145)"/>
+        <!-- Hand palm -->
+        <ellipse cx="252" cy="118" rx="14" ry="12" fill="url(#yellowGrad)"/>
+        
+        <!-- V SIGN FINGERS! ✌️ -->
+        <!-- Index finger -->
+        <rect x="242" y="80" width="8" height="35" rx="4" fill="url(#yellowGrad)" transform="rotate(-12, 246, 97)"/>
+        <!-- Middle finger -->
+        <rect x="256" y="78" width="8" height="35" rx="4" fill="url(#yellowGrad)" transform="rotate(12, 260, 95)"/>
+        <!-- Folded ring finger -->
+        <ellipse cx="265" cy="122" rx="6" ry="5" fill="#e6b817"/>
+        <!-- Thumb -->
+        <ellipse cx="240" cy="124" rx="6" ry="5" fill="#e6b817" transform="rotate(-20, 240, 124)"/>
+      </g>
+
+      <!-- LEFT LEG -->
+      <g class="left-leg">
+        <!-- Upper leg -->
+        <rect x="125" y="270" width="22" height="50" rx="10" fill="url(#overallGrad)" transform="rotate(25, 136, 270)"/>
+        <!-- Lower leg -->
+        <rect x="108" y="305" width="18" height="45" rx="9" fill="url(#overallGrad)" transform="rotate(15, 117, 305)"/>
+        <!-- Shoe -->
+        <ellipse cx="95" cy="352" rx="20" ry="10" fill="url(#shoeGrad)" transform="rotate(15, 95, 352)"/>
+      </g>
+
+      <!-- RIGHT LEG -->
+      <g class="right-leg">
+        <!-- Upper leg -->
+        <rect x="170" y="268" width="22" height="50" rx="10" fill="url(#overallGrad)" transform="rotate(-15, 181, 268)"/>
+        <!-- Lower leg -->
+        <rect x="182" y="305" width="18" height="45" rx="9" fill="url(#overallGrad)" transform="rotate(-25, 191, 305)"/>
+        <!-- Shoe -->
+        <ellipse cx="200" cy="350" rx="20" ry="10" fill="url(#shoeGrad)" transform="rotate(-20, 200, 350)"/>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<script>
+// Generate stars
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 80; i++) {
+  const star = document.createElement('div');
+  star.className = 'star';
+  star.style.left = Math.random() * 100 + '%';
+  star.style.top = Math.random() * 100 + '%';
+  star.style.width = (Math.random() * 3 + 1) + 'px';
+  star.style.height = star.style.width;
+  star.style.animationDelay = (Math.random() * 3) + 's';
+  star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+  starsEl.appendChild(star);
 }
-</script>
-<script type="module">
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0a0a1a);
-
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-camera.position.set(0, 2, 6);
-
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.2;
-document.body.appendChild(renderer.domElement);
-
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.05;
-controls.target.set(0, 2.2, 0);
-
-// Lights
-scene.add(new THREE.AmbientLight(0x4a2080, 0.7));
-const mainLight = new THREE.DirectionalLight(0xffffff, 1.5);
-mainLight.position.set(5, 8, 5);
-mainLight.castShadow = true;
-scene.add(mainLight);
-const purpleLight = new THREE.PointLight(0x9d4edd, 2, 15);
-purpleLight.position.set(-3, 4, 2);
-scene.add(purpleLight);
-const goldLight = new THREE.PointLight(0xf0c040, 1.5, 10);
-goldLight.position.set(3, 2, 3);
-scene.add(goldLight);
-scene.add(new THREE.DirectionalLight(0xc77dff, 0.8)).position.set(-3, 3, -5);
-
-// Materials
-const purpleMat = new THREE.MeshStandardMaterial({ color: 0x8b3dc7, roughness: 0.4, metalness: 0.1 });
-const earInnerMat = new THREE.MeshStandardMaterial({ color: 0xe0a0f0, roughness: 0.6 });
-const overallMat = new THREE.MeshStandardMaterial({ color: 0xd4465a, roughness: 0.4, metalness: 0.05 });
-const yellowMat = new THREE.MeshStandardMaterial({ color: 0xf0c040, roughness: 0.3, metalness: 0.2 });
-const whiteMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3 });
-const blackMat = new THREE.MeshStandardMaterial({ color: 0x1a1a2e, roughness: 0.5 });
-const yellowEyeMat = new THREE.MeshStandardMaterial({ color: 0xf5d442, roughness: 0.3 });
-const mouthMat = new THREE.MeshStandardMaterial({ color: 0x2a1040, roughness: 0.6 });
-const shoeMat = new THREE.MeshStandardMaterial({ color: 0x9d4edd, roughness: 0.4 });
-
-const jax = new THREE.Group();
-
-// The whole character is tilted back — falling/leaning back pose like the image
-jax.rotation.z = 0.25; // slight tilt
-jax.rotation.x = -0.15; // leaning back
-
-// --- HEAD ---
-const headGeo = new THREE.SphereGeometry(0.7, 32, 32);
-headGeo.scale(1, 0.95, 0.9);
-const head = new THREE.Mesh(headGeo, purpleMat);
-head.position.y = 3.6;
-head.rotation.z = -0.1; // slight head tilt
-head.castShadow = true;
-jax.add(head);
-
-// Eyes — left eye winking, right eye open
-const eyeGroup = new THREE.Group();
-eyeGroup.position.y = 3.7;
-
-// Left eye — WINK (just a line)
-const winkGeo = new THREE.BoxGeometry(0.3, 0.04, 0.05);
-const winkEye = new THREE.Mesh(winkGeo, blackMat);
-winkEye.position.set(-0.25, 0.02, 0.6);
-winkEye.rotation.z = 0.1;
-eyeGroup.add(winkEye);
-
-// Right eye — open, big
-const rightEyeGeo = new THREE.SphereGeometry(0.22, 32, 32);
-rightEyeGeo.scale(1.1, 0.7, 0.5);
-const rightEye = new THREE.Mesh(rightEyeGeo, yellowEyeMat);
-rightEye.position.set(0.28, 0.05, 0.55);
-eyeGroup.add(rightEye);
-
-const rightPupilGeo = new THREE.SphereGeometry(0.1, 16, 16);
-rightPupilGeo.scale(1, 1.2, 0.5);
-const rightPupil = new THREE.Mesh(rightPupilGeo, blackMat);
-rightPupil.position.set(0.28, 0.05, 0.66);
-eyeGroup.add(rightPupil);
-
-// Eyebrow for the open eye
-const browGeo = new THREE.BoxGeometry(0.28, 0.05, 0.05);
-const brow = new THREE.Mesh(browGeo, new THREE.MeshStandardMaterial({color: 0x6a2fa0}));
-brow.position.set(0.28, 0.25, 0.6);
-brow.rotation.z = -0.15;
-eyeGroup.add(brow);
-
-jax.add(eyeGroup);
-
-// Big grin — wide smile
-const mouthShape = new THREE.Shape();
-mouthShape.moveTo(-0.35, 0);
-mouthShape.quadraticCurveTo(0, -0.25, 0.35, 0);
-mouthShape.quadraticCurveTo(0, -0.05, -0.35, 0);
-const mouthExtrudeSettings = { depth: 0.05, bevelEnabled: false };
-const mouthMesh = new THREE.Mesh(
-  new THREE.ExtrudeGeometry(mouthShape, mouthExtrudeSettings), mouthMat
-);
-mouthMesh.position.set(0, 3.3, 0.55);
-jax.add(mouthMesh);
-
-// Teeth
-const toothGeo = new THREE.BoxGeometry(0.07, 0.1, 0.05);
-[-0.1, 0.1].forEach(x => {
-  const tooth = new THREE.Mesh(toothGeo, whiteMat);
-  tooth.position.set(x, 3.28, 0.62);
-  jax.add(tooth);
-});
-
-// --- EARS ---
-function createEar(side) {
-  const g = new THREE.Group();
-  const earGeo = new THREE.CapsuleGeometry(0.12, 1.2, 8, 16);
-  const ear = new THREE.Mesh(earGeo, purpleMat);
-  ear.castShadow = true;
-  g.add(ear);
-  const innerGeo = new THREE.CapsuleGeometry(0.06, 0.8, 8, 16);
-  g.add(new THREE.Mesh(innerGeo, earInnerMat));
-  g.position.set(side * 0.35, 4.9, 0);
-  g.rotation.z = side * -0.2;
-  return g;
-}
-// Left ear droops more (like in image)
-const leftEar = createEar(-1);
-leftEar.rotation.z = 0.4; // flopping outward
-leftEar.rotation.x = -0.3;
-jax.add(leftEar);
-
-const rightEar = createEar(1);
-rightEar.rotation.z = -0.1;
-rightEar.rotation.x = 0.15;
-jax.add(rightEar);
-
-// --- BODY ---
-const bodyGeo = new THREE.CapsuleGeometry(0.45, 0.8, 16, 16);
-const body = new THREE.Mesh(bodyGeo, purpleMat);
-body.position.y = 2.4;
-body.castShadow = true;
-jax.add(body);
-
-// Overalls
-const overallGeo = new THREE.CapsuleGeometry(0.47, 0.5, 16, 16);
-const overall = new THREE.Mesh(overallGeo, overallMat);
-overall.position.y = 2.2;
-jax.add(overall);
-
-// Straps
-[[-1, 0.05], [1, -0.05]].forEach(([side, rot]) => {
-  const sg = new THREE.BoxGeometry(0.08, 0.5, 0.08);
-  const s = new THREE.Mesh(sg, overallMat);
-  s.position.set(side * 0.25, 2.7, 0.15);
-  s.rotation.z = rot + side * 0.1;
-  jax.add(s);
-  // Button
-  const bg = new THREE.CylinderGeometry(0.04, 0.04, 0.03, 16);
-  const b = new THREE.Mesh(bg, yellowMat);
-  b.position.set(side * 0.28, 2.5, 0.4);
-  b.rotation.x = Math.PI / 2;
-  jax.add(b);
-});
-
-// --- LEFT ARM (down/back, relaxed) ---
-const leftArmGroup = new THREE.Group();
-const leftArmPivot = new THREE.Group();
-
-// Upper arm
-const luGeo = new THREE.CapsuleGeometry(0.1, 0.55, 8, 16);
-const luArm = new THREE.Mesh(luGeo, purpleMat);
-luArm.position.y = -0.3;
-luArm.castShadow = true;
-leftArmPivot.add(luArm);
-
-// Forearm
-const lfGeo = new THREE.CapsuleGeometry(0.08, 0.45, 8, 16);
-const lfArm = new THREE.Mesh(lfGeo, purpleMat);
-lfArm.position.y = -0.7;
-lfArm.castShadow = true;
-leftArmPivot.add(lfArm);
-
-// Hand
-const lhGeo = new THREE.SphereGeometry(0.14, 16, 16);
-const lHand = new THREE.Mesh(lhGeo, yellowMat);
-lHand.position.y = -1.0;
-leftArmPivot.add(lHand);
-
-leftArmPivot.position.set(-0.65, 2.8, 0);
-leftArmPivot.rotation.z = 0.5; // arm going down/outward
-leftArmPivot.rotation.x = 0.3; // slightly back
-leftArmGroup.add(leftArmPivot);
-jax.add(leftArmGroup);
-
-// --- RIGHT ARM (up, doing V sign!) ---
-const rightArmGroup = new THREE.Group();
-const rightArmPivot = new THREE.Group();
-
-// Upper arm
-const ruGeo = new THREE.CapsuleGeometry(0.1, 0.55, 8, 16);
-const ruArm = new THREE.Mesh(ruGeo, purpleMat);
-ruArm.position.y = -0.3;
-ruArm.castShadow = true;
-rightArmPivot.add(ruArm);
-
-// Forearm
-const rfGeo = new THREE.CapsuleGeometry(0.08, 0.45, 8, 16);
-const rfArm = new THREE.Mesh(rfGeo, purpleMat);
-rfArm.position.y = -0.7;
-rfArm.castShadow = true;
-rightArmPivot.add(rfArm);
-
-// Hand (palm)
-const rhGeo = new THREE.SphereGeometry(0.13, 16, 16);
-rhGeo.scale(1, 1, 0.7);
-const rHand = new THREE.Mesh(rhGeo, yellowMat);
-rHand.position.set(0, -1.0, 0);
-rightArmPivot.add(rHand);
-
-// V-Sign fingers! ✌️
-// Index finger
-const fingerGeo = new THREE.CapsuleGeometry(0.035, 0.25, 6, 8);
-const indexFinger = new THREE.Mesh(fingerGeo, yellowMat);
-indexFinger.position.set(-0.06, -1.25, 0.02);
-indexFinger.rotation.z = 0.25;
-rightArmPivot.add(indexFinger);
-
-// Middle finger
-const middleFinger = new THREE.Mesh(fingerGeo.clone(), yellowMat);
-middleFinger.position.set(0.06, -1.25, 0.02);
-middleFinger.rotation.z = -0.25;
-rightArmPivot.add(middleFinger);
-
-// Folded ring finger (short, curled)
-const foldedGeo = new THREE.CapsuleGeometry(0.03, 0.08, 4, 8);
-const ringFinger = new THREE.Mesh(foldedGeo, yellowMat);
-ringFinger.position.set(0.14, -1.08, 0.04);
-rightArmPivot.add(ringFinger);
-
-// Folded pinky
-const pinkyFinger = new THREE.Mesh(foldedGeo.clone(), yellowMat);
-pinkyFinger.position.set(0.18, -1.04, 0.04);
-rightArmPivot.add(pinkyFinger);
-
-// Thumb tucked
-const thumb = new THREE.Mesh(foldedGeo.clone(), yellowMat);
-thumb.position.set(-0.14, -1.05, 0.06);
-thumb.rotation.z = 0.5;
-rightArmPivot.add(thumb);
-
-rightArmPivot.position.set(0.65, 2.8, 0);
-// Arm raised up and slightly outward — V sign up high
-rightArmPivot.rotation.z = -2.8; // arm going UP
-rightArmPivot.rotation.x = -0.2;
-rightArmGroup.add(rightArmPivot);
-jax.add(rightArmGroup);
-
-// --- LEGS (kicked up, like falling back) ---
-function createLeg(side) {
-  const g = new THREE.Group();
-  const upperGeo = new THREE.CapsuleGeometry(0.14, 0.5, 8, 16);
-  const upper = new THREE.Mesh(upperGeo, overallMat);
-  upper.position.y = -0.35;
-  upper.castShadow = true;
-  g.add(upper);
-  const lowerGeo = new THREE.CapsuleGeometry(0.12, 0.4, 8, 16);
-  const lower = new THREE.Mesh(lowerGeo, overallMat);
-  lower.position.y = -0.8;
-  lower.castShadow = true;
-  g.add(lower);
-  const shoeGeo = new THREE.SphereGeometry(0.18, 16, 16);
-  shoeGeo.scale(1.3, 0.6, 1.6);
-  const shoe = new THREE.Mesh(shoeGeo, shoeMat);
-  shoe.position.set(0, -1.1, 0.08);
-  shoe.castShadow = true;
-  g.add(shoe);
-  g.position.set(side * 0.25, 1.7, 0);
-  return g;
-}
-
-const leftLeg = createLeg(-1);
-// Legs kicked up — like in the image
-leftLeg.rotation.x = -0.8;
-leftLeg.rotation.z = 0.3;
-jax.add(leftLeg);
-
-const rightLeg = createLeg(1);
-rightLeg.rotation.x = -0.5;
-rightLeg.rotation.z = -0.2;
-jax.add(rightLeg);
-
-scene.add(jax);
-
-// --- FLOOR ---
-const floorGeo = new THREE.CircleGeometry(8, 64);
-const floorMat2 = new THREE.MeshStandardMaterial({ color: 0x150a30, roughness: 0.8, metalness: 0.2 });
-const floor = new THREE.Mesh(floorGeo, floorMat2);
-floor.rotation.x = -Math.PI / 2;
-floor.receiveShadow = true;
-scene.add(floor);
-
-// --- PARTICLES ---
-const particleCount = 200;
-const particlesGeo = new THREE.BufferGeometry();
-const positions = new Float32Array(particleCount * 3);
-const colors = new Float32Array(particleCount * 3);
-for (let i = 0; i < particleCount; i++) {
-  positions[i*3] = (Math.random() - 0.5) * 15;
-  positions[i*3+1] = Math.random() * 10;
-  positions[i*3+2] = (Math.random() - 0.5) * 15;
-  const c = new THREE.Color().setHSL(0.75 + Math.random() * 0.1, 0.8, 0.6);
-  colors[i*3] = c.r; colors[i*3+1] = c.g; colors[i*3+2] = c.b;
-}
-particlesGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-particlesGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-const particleMat2 = new THREE.PointsMaterial({ size: 0.06, vertexColors: true, transparent: true, opacity: 0.7 });
-scene.add(new THREE.Points(particlesGeo, particleMat2));
-
-// --- ANIMATION ---
-const clock = new THREE.Clock();
-function animate() {
-  requestAnimationFrame(animate);
-  const t = clock.getElapsedTime();
-
-  // Gentle floating/bobbing — like he's suspended mid-fall
-  jax.position.y = Math.sin(t * 1.5) * 0.15;
-  jax.rotation.z = 0.25 + Math.sin(t * 0.8) * 0.05;
-
-  // Ears gentle sway
-  leftEar.rotation.z = 0.4 + Math.sin(t * 2) * 0.1;
-  rightEar.rotation.z = -0.1 + Math.sin(t * 2 + 1) * 0.08;
-
-  // V-sign hand subtle wave
-  rightArmPivot.rotation.z = -2.8 + Math.sin(t * 3) * 0.08;
-
-  // Legs gentle kick
-  leftLeg.rotation.x = -0.8 + Math.sin(t * 2) * 0.1;
-  rightLeg.rotation.x = -0.5 + Math.sin(t * 2 + Math.PI) * 0.1;
-
-  // Purple light pulse
-  purpleLight.intensity = 2 + Math.sin(t * 2) * 0.5;
-
-  // Particles float
-  const posArr = particlesGeo.attributes.position.array;
-  for (let i = 0; i < particleCount; i++) {
-    posArr[i*3+1] += 0.003;
-    if (posArr[i*3+1] > 10) posArr[i*3+1] = 0;
-  }
-  particlesGeo.attributes.position.needsUpdate = true;
-
-  controls.update();
-  renderer.render(scene, camera);
-}
-animate();
-
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
 </script>
 </body>
 </html>
