@@ -2,366 +2,391 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>The Amazing Digital Circus 🎪</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Amazing Digital Circus - Episode: The Glitch 🎪</title>
 <style>
-* { margin:0;padding:0;box-sizing:border-box; }
-body { background:#0a0a1a; overflow-x:hidden; font-family:'Segoe UI',sans-serif; }
-.stars { position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0; }
-.star { position:absolute;width:3px;height:3px;background:#c77dff;border-radius:50%;animation:twinkle 3s ease-in-out infinite; }
-@keyframes twinkle { 0%,100%{opacity:0.3} 50%{opacity:1} }
-
-.title {
-  text-align:center;padding:20px;
-  color:#f0c040;font-size:1.6em;font-weight:bold;
-  text-shadow:0 0 20px #f0c040,0 0 40px #e6a817;
-  position:relative;z-index:2;
-  animation: title-glow 2s ease-in-out infinite alternate;
-}
-@keyframes title-glow { from{text-shadow:0 0 10px #f0c040} to{text-shadow:0 0 30px #f0c040,0 0 60px #e6a817} }
-
-/* SCENE - scrollable story */
-.scene {
-  position:relative;z-index:1;
-  max-width:500px;margin:0 auto;padding:20px;
-  display:flex;flex-direction:column;align-items:center;gap:30px;
-}
-
-/* CHARACTER CARDS */
-.char-card {
-  width:90vw;max-width:400px;
-  border-radius:20px;padding:20px;
-  position:relative;overflow:hidden;
-  box-shadow:0 0 30px rgba(0,0,0,0.5);
-}
-
-/* Stage area */
-.stage {
-  width:100%;aspect-ratio:1/1;max-height:350px;
-  position:relative;border-radius:15px;
-  overflow:hidden;margin-bottom:15px;
-}
-
-.char-name {
-  text-align:center;font-size:1.4em;font-weight:bold;
-  margin-bottom:8px;
-}
-.char-desc {
-  text-align:center;font-size:0.85em;opacity:0.8;
-  line-height:1.4;
-}
-
-/* ====== JAX ====== */
-.jax-card { background:linear-gradient(135deg,#1a0533,#2d1b69); }
-.jax-card .char-name { color:#c77dff; }
-.jax-card .char-desc { color:#e0c0ff; }
-
-.jax-stage { background:radial-gradient(circle at 50% 60%,#2d1b69,#0a0a1a); }
-.jax-svg { width:60%;height:auto;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(15deg);animation:jax-float 3s ease-in-out infinite; }
-@keyframes jax-float { 0%,100%{transform:translate(-50%,-50%) rotate(15deg) translateY(0)} 50%{transform:translate(-50%,-50%) rotate(15deg) translateY(-10px)} }
-.jax-svg .v-hand { transform-origin:240px 160px;animation:wave 0.8s ease-in-out infinite; }
-@keyframes wave { 0%,100%{transform:rotate(0)} 50%{transform:rotate(8deg)} }
-
-/* ====== POMNI ====== */
-.pomni-card { background:linear-gradient(135deg,#1a0a2e,#2a1545); }
-.pomni-card .char-name { color:#ff6b8a; }
-.pomni-card .char-desc { color:#ffc0d0; }
-
-.pomni-stage { background:radial-gradient(circle at 50% 60%,#2a1545,#0a0a1a); }
-.pomni-svg { width:55%;height:auto;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);animation:pomni-shake 4s ease-in-out infinite; }
-@keyframes pomni-shake { 0%,100%{transform:translate(-50%,-50%) rotate(0)} 25%{transform:translate(-50%,-50%) rotate(-2deg)} 75%{transform:translate(-50%,-50%) rotate(2deg)} }
-
-/* ====== CAINE ====== */
-.caine-card { background:linear-gradient(135deg,#1a1a00,#2d2d10); }
-.caine-card .char-name { color:#f0c040; }
-.caine-card .char-desc { color:#ffe088; }
-
-.caine-stage { background:radial-gradient(circle at 50% 50%,#2d2d10,#0a0a1a); }
-.caine-svg { width:55%;height:auto;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);animation:caine-spin 6s linear infinite; }
-@keyframes caine-spin { 0%{transform:translate(-50%,-50%) rotate(0)} 100%{transform:translate(-50%,-50%) rotate(360deg)} }
-
-/* ====== STORY BANNER ====== */
-.story-banner {
-  width:90vw;max-width:400px;
-  background:linear-gradient(135deg,#1a0020,#300a40);
-  border:2px solid #f0c040;
-  border-radius:20px;padding:25px;
-  text-align:center;
-  box-shadow:0 0 40px rgba(240,192,64,0.2);
-  position:relative;overflow:hidden;
-}
-.story-banner h2 { color:#f0c040;font-size:1.3em;margin-bottom:12px; }
-.story-banner p { color:#e0c0ff;font-size:0.9em;line-height:1.6; }
-
-/* GLITCH EFFECT */
-.glitch-overlay {
-  position:fixed;top:0;left:0;width:100%;height:100%;
-  pointer-events:none;z-index:100;
-  animation: glitch-flash 8s ease-in-out infinite;
-}
-@keyframes glitch-flash {
-  0%,95%,100% { opacity:0; background:transparent; }
-  96% { opacity:0.3; background:#ff0040; }
-  97% { opacity:0; }
-  98% { opacity:0.2; background:#00ffff; transform:translateX(5px); }
-  99% { opacity:0; transform:translateX(0); }
-}
-
-/* BUG GLITCH TEXT */
-.bug-text {
-  position:fixed;z-index:99;
-  color:#ff0040;font-family:monospace;font-size:0.8em;
-  opacity:0;pointer-events:none;
-  animation: bug-appear 12s ease-in-out infinite;
-}
-.bug-text:nth-child(1) { top:20%;left:5%;animation-delay:0s; }
-.bug-text:nth-child(2) { top:60%;right:5%;animation-delay:4s; }
-.bug-text:nth-child(3) { top:40%;left:50%;animation-delay:8s; }
-@keyframes bug-appear {
-  0%,90%,100% { opacity:0; }
-  92% { opacity:0.8; transform:translateX(0); }
-  94% { opacity:0.6; transform:translateX(-3px); }
-  96% { opacity:0; }
-}
-
-/* DRAMA METER */
-.drama-meter {
-  width:90vw;max-width:400px;
-  background:linear-gradient(135deg,#200a0a,#400a15);
-  border:2px solid #ff4060;
-  border-radius:15px;padding:20px;
-  text-align:center;
-}
-.drama-meter h3 { color:#ff4060;font-size:1.1em;margin-bottom:10px; }
-.meter-bar {
-  width:100%;height:20px;background:#1a0a0a;border-radius:10px;overflow:hidden;
-}
-.meter-fill {
-  height:100%;border-radius:10px;
-  background:linear-gradient(90deg,#f0c040,#ff4060,#ff0040);
-  animation: drama-pulse 3s ease-in-out infinite;
-}
-@keyframes drama-pulse { 0%,100%{width:60%} 50%{width:95%} }
-
-.meter-label { color:#ff8090;font-size:0.8em;margin-top:8px; }
-
-/* TENSION SECTION */
-.tension-card {
-  width:90vw;max-width:400px;
-  background:linear-gradient(135deg,#0a0a1a,#1a0030);
-  border:2px solid #9d4edd;
-  border-radius:20px;padding:25px;
-  position:relative;overflow:hidden;
-}
-.tension-card h3 { color:#c77dff;text-align:center;margin-bottom:15px; }
-.tension-item {
-  display:flex;align-items:center;gap:10px;
-  padding:8px 0;border-bottom:1px solid #2a1545;
-  color:#e0c0ff;font-size:0.85em;
-}
-.tension-item:last-child { border-bottom:none; }
-.tension-emoji { font-size:1.4em; }
-
-/* FOOTER */
-.footer {
-  text-align:center;padding:30px;
-  color:#c77dff55;font-size:0.75em;
-  position:relative;z-index:2;
-}
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;overflow:hidden;font-family:'Rubik',sans-serif;width:100vw;height:100vh}
+#stage{position:relative;width:100vw;height:100vh;overflow:hidden}
+canvas#bgCanvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0}
+#sceneLayer{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;display:flex;align-items:center;justify-content:center}
+#characters{position:absolute;bottom:5%;width:100%;display:flex;justify-content:center;gap:2vw;z-index:2}
+.char-slot{width:25vmin;height:35vmin;transition:all .5s;opacity:0;transform:translateY(40px)}
+.char-slot.visible{opacity:1;transform:translateY(0)}
+.char-slot.shake{animation:charShake .1s infinite}
+@keyframes charShake{0%,100%{transform:translate(0)}25%{transform:translate(-3px,2px)}50%{transform:translate(3px,-2px)}75%{transform:translate(-2px,-3px)}}
+#dialogue{position:absolute;top:8%;left:50%;transform:translateX(-50%);z-index:10;
+  background:rgba(0,0,0,.85);border:3px solid #fff;border-radius:20px;padding:20px 30px;
+  max-width:85vw;text-align:center;color:#fff;font-size:clamp(16px,4vmin,28px);
+  opacity:0;transition:opacity .4s;pointer-events:none;min-width:50vw}
+#dialogue.visible{opacity:1}
+#dialogue .speaker{font-weight:900;margin-bottom:6px;font-size:clamp(14px,3vmin,20px)}
+#dialogue .speaker.jax{color:#9b59b6}
+#dialogue .speaker.pomni{color:#e74c3c}
+#dialogue .speaker.caine{color:#f1c40f}
+#progressBar{position:absolute;bottom:0;left:0;height:4px;background:linear-gradient(90deg,#e74c3c,#f1c40f,#9b59b6);z-index:20;transition:width .3s}
+#title-screen{position:absolute;top:0;left:0;width:100%;height:100%;z-index:30;
+  background:radial-gradient(circle,#1a0a2e,#000);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;transition:opacity 1s}
+#title-screen h1{font-size:clamp(20px,6vmin,48px);color:#f1c40f;text-shadow:0 0 30px #f1c40f80;margin-bottom:10px;text-align:center;padding:0 10px}
+#title-screen h2{font-size:clamp(14px,4vmin,30px);color:#e74c3c;margin-bottom:30px;text-align:center}
+#startBtn{padding:15px 40px;font-size:clamp(16px,4vmin,24px);background:linear-gradient(135deg,#9b59b6,#e74c3c);
+  color:#fff;border:none;border-radius:50px;cursor:pointer;font-family:'Rubik';font-weight:700;
+  animation:pulse 2s infinite;box-shadow:0 0 30px #9b59b680}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+#glitchOverlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:15;pointer-events:none;opacity:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,0,.03) 2px,rgba(0,255,0,.03) 4px);
+  mix-blend-mode:screen}
+#flashOverlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:16;pointer-events:none;opacity:0;background:#fff}
+#endScreen{position:absolute;top:0;left:0;width:100%;height:100%;z-index:30;background:rgba(0,0,0,.95);
+  display:none;flex-direction:column;align-items:center;justify-content:center;color:#fff}
+#endScreen h1{font-size:clamp(20px,6vmin,42px);color:#f1c40f;margin-bottom:15px}
+#endScreen p{font-size:clamp(14px,4vmin,24px);color:#e74c3c}
 </style>
 </head>
 <body>
-
-<div class="stars" id="stars"></div>
-
-<!-- Glitch effects -->
-<div class="glitch-overlay"></div>
-<div class="bug-text">ERR0R: R3ALITY_N0T_F0UND</div>
-<div class="bug-text">WARN: ABSTRACT10N_DETECTED</div>
-<div class="bug-text">BUG: C41NE.exe HAS ST0PPED</div>
-
-<div class="title">🎪 The Amazing Digital Circus 🎪</div>
-
-<div class="scene">
-
-  <!-- JAX -->
-  <div class="char-card jax-card">
-    <div class="stage jax-stage">
-      <svg class="jax-svg" viewBox="60 0 210 420" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#9d4edd"/><stop offset="100%" stop-color="#7b2cbf"/></linearGradient>
-          <linearGradient id="ei" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e8b4f8"/><stop offset="100%" stop-color="#d4a0e8"/></linearGradient>
-          <linearGradient id="og" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d4465a"/><stop offset="100%" stop-color="#b83a4c"/></linearGradient>
-          <linearGradient id="yg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f5d442"/><stop offset="100%" stop-color="#e6b817"/></linearGradient>
-          <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#9d4edd"/><stop offset="100%" stop-color="#6a2fa0"/></linearGradient>
-        </defs>
-        <g class="ear-left"><ellipse cx="115" cy="38" rx="18" ry="52" fill="url(#pg)" transform="rotate(-12,115,70)"/><ellipse cx="115" cy="38" rx="9" ry="35" fill="url(#ei)" transform="rotate(-12,115,70)"/></g>
-        <g class="ear-right"><ellipse cx="205" cy="35" rx="18" ry="52" fill="url(#pg)" transform="rotate(15,205,70)"/><ellipse cx="205" cy="35" rx="9" ry="35" fill="url(#ei)" transform="rotate(15,205,70)"/></g>
-        <ellipse cx="160" cy="128" rx="52" ry="48" fill="url(#pg)"/>
-        <line x1="128" y1="120" x2="152" y2="118" stroke="#1a1a2e" stroke-width="4" stroke-linecap="round"/>
-        <ellipse cx="180" cy="116" rx="14" ry="12" fill="#f5d442"/><circle cx="182" cy="116" r="7" fill="#1a1a2e"/><circle cx="179" cy="113" r="2.5" fill="white" opacity="0.8"/>
-        <path d="M135 148 Q160 172 185 148" fill="#2a1040"/><rect x="152" y="148" width="6" height="9" rx="1" fill="white"/><rect x="160" y="148" width="6" height="9" rx="1" fill="white"/>
-        <path d="M185 148 Q192 143 195 137" fill="none" stroke="#5a1d99" stroke-width="2.5" stroke-linecap="round"/>
-        <rect x="148" y="170" width="24" height="12" rx="6" fill="url(#pg)"/>
-        <ellipse cx="160" cy="220" rx="40" ry="52" fill="url(#pg)"/>
-        <path d="M125 230 Q125 278 160 278 Q195 278 195 230 Q195 260 160 265 Q125 260 125 230Z" fill="url(#og)"/>
-        <path d="M140 198 L135 230" stroke="url(#og)" stroke-width="9" stroke-linecap="round"/>
-        <path d="M180 198 L185 230" stroke="url(#og)" stroke-width="9" stroke-linecap="round"/>
-        <circle cx="137" cy="232" r="4" fill="url(#yg)"/><circle cx="183" cy="232" r="4" fill="url(#yg)"/>
-        <g class="left-arm-g"><path d="M122 200 Q105 220 95 245" stroke="url(#pg)" stroke-width="18" stroke-linecap="round" fill="none"/><path d="M95 245 Q88 260 82 275" stroke="url(#pg)" stroke-width="15" stroke-linecap="round" fill="none"/><circle cx="80" cy="280" r="12" fill="url(#yg)"/></g>
-        <g class="v-hand"><path d="M198 200 Q215 185 225 165" stroke="url(#pg)" stroke-width="18" stroke-linecap="round" fill="none"/><path d="M225 165 Q232 148 238 132" stroke="url(#pg)" stroke-width="15" stroke-linecap="round" fill="none"/><circle cx="240" cy="125" r="13" fill="url(#yg)"/><rect x="230" y="88" width="7" height="32" rx="3.5" fill="url(#yg)" transform="rotate(-10,233,104)"/><rect x="244" y="86" width="7" height="32" rx="3.5" fill="url(#yg)" transform="rotate(10,247,102)"/><circle cx="254" cy="128" r="5" fill="#e6b817"/><circle cx="228" cy="130" r="5" fill="#e6b817"/></g>
-        <g><path d="M140 272 Q125 295 112 315" stroke="url(#og)" stroke-width="20" stroke-linecap="round" fill="none"/><path d="M112 315 Q105 335 98 350" stroke="url(#og)" stroke-width="17" stroke-linecap="round" fill="none"/><ellipse cx="90" cy="358" rx="20" ry="10" fill="url(#sg)" transform="rotate(20,90,358)"/></g>
-        <g><path d="M180 272 Q192 295 200 315" stroke="url(#og)" stroke-width="20" stroke-linecap="round" fill="none"/><path d="M200 315 Q208 335 215 350" stroke="url(#og)" stroke-width="17" stroke-linecap="round" fill="none"/><ellipse cx="222" cy="358" rx="20" ry="10" fill="url(#sg)" transform="rotate(-15,222,358)"/></g>
-      </svg>
-    </div>
-    <div class="char-name">🐰 Jax — הטרול</div>
-    <div class="char-desc">הארנב הסגול שלא מפסיק לצחוק. תמיד עושה צרות, תמיד עם חיוך. הוא יודע משהו שאף אחד לא יודע... ✌️</div>
+<div id="stage">
+  <canvas id="bgCanvas"></canvas>
+  <div id="sceneLayer"></div>
+  <div id="characters">
+    <div class="char-slot" id="charJax"></div>
+    <div class="char-slot" id="charPomni"></div>
+    <div class="char-slot" id="charCaine"></div>
   </div>
-
-  <!-- POMNI -->
-  <div class="char-card pomni-card">
-    <div class="stage pomni-stage">
-      <svg class="pomni-svg" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="pomni-hat1" x1="0%" y1="0%" x2="100%"><stop offset="0%" stop-color="#ff3366"/><stop offset="50%" stop-color="#ff3366"/><stop offset="50%" stop-color="#3366ff"/><stop offset="100%" stop-color="#3366ff"/></linearGradient>
-          <linearGradient id="pomni-skin" x1="0%" y1="0%" x2="100%"><stop offset="0%" stop-color="#ffe0c0"/><stop offset="100%" stop-color="#ffd0a0"/></linearGradient>
-          <linearGradient id="pomni-body1" x1="0%" y1="0%" x2="100%"><stop offset="0%" stop-color="#ff3366"/><stop offset="50%" stop-color="#ff3366"/><stop offset="50%" stop-color="#3366ff"/><stop offset="100%" stop-color="#3366ff"/></linearGradient>
-        </defs>
-        <!-- Hat -->
-        <path d="M110 95 L150 30 L190 95" fill="url(#pomni-hat1)"/>
-        <circle cx="150" cy="28" r="10" fill="#f0c040"/>
-        <!-- Head -->
-        <ellipse cx="150" cy="130" rx="48" ry="42" fill="url(#pomni-skin)"/>
-        <!-- Eyes - panicked! -->
-        <ellipse cx="132" cy="122" rx="15" ry="18" fill="white"/>
-        <circle cx="132" cy="125" r="8" fill="#1a1a2e"/>
-        <circle cx="130" cy="122" r="3" fill="white"/>
-        <ellipse cx="168" cy="122" rx="15" ry="18" fill="white"/>
-        <circle cx="168" cy="125" r="8" fill="#1a1a2e"/>
-        <circle cx="166" cy="122" r="3" fill="white"/>
-        <!-- Worried eyebrows -->
-        <line x1="120" y1="102" x2="140" y2="106" stroke="#8b4513" stroke-width="3" stroke-linecap="round"/>
-        <line x1="160" y1="106" x2="180" y2="102" stroke="#8b4513" stroke-width="3" stroke-linecap="round"/>
-        <!-- Small worried mouth -->
-        <ellipse cx="150" cy="150" rx="8" ry="5" fill="#2a1040"/>
-        <!-- Blush -->
-        <ellipse cx="122" cy="142" rx="8" ry="5" fill="#ff8080" opacity="0.4"/>
-        <ellipse cx="178" cy="142" rx="8" ry="5" fill="#ff8080" opacity="0.4"/>
-        <!-- Body - jester outfit -->
-        <ellipse cx="150" cy="215" rx="38" ry="50" fill="url(#pomni-body1)"/>
-        <!-- Collar -->
-        <path d="M115 175 Q130 190 150 185 Q170 190 185 175" fill="#f0c040" stroke="#e6a817" stroke-width="1"/>
-        <!-- Arms -->
-        <path d="M115 195 Q95 210 85 235" stroke="url(#pomni-body1)" stroke-width="16" stroke-linecap="round" fill="none"/>
-        <circle cx="82" cy="240" r="10" fill="url(#pomni-skin)"/>
-        <path d="M185 195 Q205 210 215 235" stroke="url(#pomni-body1)" stroke-width="16" stroke-linecap="round" fill="none"/>
-        <circle cx="218" cy="240" r="10" fill="url(#pomni-skin)"/>
-        <!-- Legs -->
-        <path d="M135 260 Q130 290 125 320" stroke="url(#pomni-body1)" stroke-width="18" stroke-linecap="round" fill="none"/>
-        <ellipse cx="120" cy="328" rx="18" ry="10" fill="#ff3366"/>
-        <path d="M165 260 Q170 290 175 320" stroke="url(#pomni-body1)" stroke-width="18" stroke-linecap="round" fill="none"/>
-        <ellipse cx="180" cy="328" rx="18" ry="10" fill="#3366ff"/>
-        <!-- Panic lines -->
-        <line x1="95" y1="105" x2="85" y2="95" stroke="#ff6b8a" stroke-width="2" opacity="0.6"><animate attributeName="opacity" values="0;0.8;0" dur="2s" repeatCount="indefinite"/></line>
-        <line x1="205" y1="105" x2="215" y2="95" stroke="#ff6b8a" stroke-width="2" opacity="0.6"><animate attributeName="opacity" values="0;0.8;0" dur="2s" repeatCount="indefinite" begin="0.5s"/></line>
-        <line x1="100" y1="115" x2="88" y2="112" stroke="#ff6b8a" stroke-width="2" opacity="0.6"><animate attributeName="opacity" values="0;0.6;0" dur="1.5s" repeatCount="indefinite" begin="1s"/></line>
-      </svg>
-    </div>
-    <div class="char-name">🤡 Pomni — הבהולה</div>
-    <div class="char-desc">הנערה עם כובע הליצן שנלכדה בקרקס הדיגיטלי. תמיד בפאניקה, תמיד מנסה לברוח. האם היא תמצא את הדרך החוצה? 😰</div>
+  <div id="dialogue"><div class="speaker"></div><div class="text"></div></div>
+  <div id="glitchOverlay"></div>
+  <div id="flashOverlay"></div>
+  <div id="progressBar" style="width:0%"></div>
+  <div id="title-screen">
+    <h1>🎪 The Amazing Digital Circus 🎪</h1>
+    <h2>Episode: The Glitch - הגליץ'</h2>
+    <button id="startBtn">▶ התחל את ההרפתקה!</button>
   </div>
-
-  <!-- CAINE -->
-  <div class="char-card caine-card">
-    <div class="stage caine-stage">
-      <svg class="caine-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- Caine - the floating teeth/head ringmaster -->
-        <!-- Outer glow -->
-        <circle cx="150" cy="150" r="80" fill="none" stroke="#f0c040" stroke-width="2" opacity="0.3">
-          <animate attributeName="r" values="80;90;80" dur="3s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0.3;0.6;0.3" dur="3s" repeatCount="indefinite"/>
-        </circle>
-        <!-- Main head shape - like a set of teeth/jaw -->
-        <ellipse cx="150" cy="140" rx="55" ry="50" fill="#f5d442"/>
-        <ellipse cx="150" cy="140" rx="50" ry="45" fill="#ffe680"/>
-        <!-- Top hat -->
-        <rect x="115" y="68" width="70" height="30" rx="5" fill="#2a1a40"/>
-        <rect x="105" y="92" width="90" height="10" rx="3" fill="#2a1a40"/>
-        <rect x="130" y="75" width="40" height="5" rx="2" fill="#f0c040"/>
-        <!-- Eyes - swirly/crazy -->
-        <circle cx="130" cy="130" r="15" fill="white"/>
-        <circle cx="130" cy="130" r="8" fill="#1a1a2e">
-          <animateTransform attributeName="transform" type="rotate" values="0 130 130;360 130 130" dur="4s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="170" cy="130" r="15" fill="white"/>
-        <circle cx="170" cy="130" r="8" fill="#1a1a2e">
-          <animateTransform attributeName="transform" type="rotate" values="360 170 130;0 170 130" dur="4s" repeatCount="indefinite"/>
-        </circle>
-        <!-- Big grin with teeth -->
-        <path d="M115 160 Q150 200 185 160" fill="#2a1040"/>
-        <!-- Individual teeth -->
-        <rect x="120" y="160" width="10" height="12" rx="2" fill="white"/>
-        <rect x="132" y="160" width="10" height="14" rx="2" fill="white"/>
-        <rect x="144" y="160" width="12" height="15" rx="2" fill="white"/>
-        <rect x="158" y="160" width="10" height="14" rx="2" fill="white"/>
-        <rect x="170" y="160" width="10" height="12" rx="2" fill="white"/>
-        <!-- Bowtie -->
-        <polygon points="135,195 150,205 165,195 165,215 150,205 135,215" fill="#ff3366"/>
-        <circle cx="150" cy="205" r="5" fill="#f0c040"/>
-        <!-- Floating sparkles -->
-        <text x="80" y="120" fill="#f0c040" font-size="16">✨</text>
-        <text x="210" y="130" fill="#f0c040" font-size="14">⭐</text>
-        <text x="90" y="200" fill="#f0c040" font-size="12">✨</text>
-        <text x="200" y="100" fill="#f0c040" font-size="18">✨</text>
-      </svg>
-    </div>
-    <div class="char-name">🎩 Caine — מנהל הקרקס</div>
-    <div class="char-desc">השיניים המרחפות שמנהלות את הכל! יוצר הרפתקאות מטורפות, קובע את הכללים, ולפעמים... משתגע לגמרי. "ADVENTURE TIME!" 🎪⚡</div>
+  <div id="endScreen">
+    <h1>...To Be Continued</h1>
+    <p>פרק 9 - 4 ביוני 🎪</p>
   </div>
-
-  <!-- STORY BANNER -->
-  <div class="story-banner">
-    <h2>🎭 הקרקס הדיגיטלי המדהים</h2>
-    <p>
-      הם לכודים בעולם דיגיטלי מטורף 🌀<br>
-      Caine יוצר הרפתקאות חדשות כל יום 🎪<br>
-      באגים מוזרים צצים מכל מקום 🐛<br>
-      Pomni מנסה לברוח... Jax נהנה מהכאוס 😈<br>
-      והדרמה? היא רק מתחילה... 🔥
-    </p>
-  </div>
-
-  <!-- DRAMA METER -->
-  <div class="drama-meter">
-    <h3>🔥 מד הדרמה 🔥</h3>
-    <div class="meter-bar"><div class="meter-fill"></div></div>
-    <div class="meter-label">⚠️ רמת דרמה: קריטית! ⚠️</div>
-  </div>
-
-  <!-- TENSION SECTION -->
-  <div class="tension-card">
-    <h3>⚡ מה קורה בקרקס ⚡</h3>
-    <div class="tension-item"><span class="tension-emoji">🐛</span> באגים מוזרים משתלטים על העולם</div>
-    <div class="tension-item"><span class="tension-emoji">😱</span> Pomni מגלה סוד מצמרר על Caine</div>
-    <div class="tension-item"><span class="tension-emoji">🐰</span> Jax יודע יותר ממה שהוא מראה</div>
-    <div class="tension-item"><span class="tension-emoji">🎪</span> ההרפתקה הבאה תשנה הכל</div>
-    <div class="tension-item"><span class="tension-emoji">💀</span> מה באמת קורה כשמישהו עובר Abstraction?</div>
-    <div class="tension-item"><span class="tension-emoji">🔥</span> פרק 9 — הכל ישתנה ב-4 ביוני!</div>
-  </div>
-
 </div>
 
-<div class="footer">🎪 The Amazing Digital Circus Fan Page 🐰✌️</div>
-
 <script>
-const starsEl=document.getElementById('stars');
-for(let i=0;i<100;i++){
-  const s=document.createElement('div');s.className='star';
-  s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
-  const sz=(Math.random()*3+1)+'px';s.style.width=sz;s.style.height=sz;
-  s.style.animationDelay=Math.random()*3+'s';s.style.animationDuration=(Math.random()*2+2)+'s';
-  starsEl.appendChild(s);
+// SVG Characters
+const SVGS = {
+jax: `<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="jg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b07cd8"/><stop offset="100%" stop-color="#7d3cad"/></linearGradient></defs>
+  <!-- ears -->
+  <ellipse cx="75" cy="50" rx="18" ry="55" fill="url(#jg)" stroke="#5b2d8e" stroke-width="2"/>
+  <ellipse cx="75" cy="50" rx="10" ry="45" fill="#e8b4f8" opacity=".5"/>
+  <ellipse cx="125" cy="50" rx="18" ry="55" fill="url(#jg)" stroke="#5b2d8e" stroke-width="2"/>
+  <ellipse cx="125" cy="50" rx="10" ry="45" fill="#e8b4f8" opacity=".5"/>
+  <!-- body -->
+  <ellipse cx="100" cy="210" rx="45" ry="60" fill="url(#jg)" stroke="#5b2d8e" stroke-width="2"/>
+  <!-- head -->
+  <circle cx="100" cy="130" r="50" fill="url(#jg)" stroke="#5b2d8e" stroke-width="2"/>
+  <!-- face -->
+  <ellipse cx="82" cy="122" rx="8" ry="10" fill="#fff"/>
+  <circle cx="84" cy="123" r="5" fill="#222"/>
+  <circle cx="86" cy="121" r="2" fill="#fff"/>
+  <ellipse cx="118" cy="122" rx="8" ry="10" fill="#fff"/>
+  <circle cx="116" cy="123" r="5" fill="#222"/>
+  <circle cx="114" cy="121" r="2" fill="#fff"/>
+  <!-- smirk -->
+  <path d="M80 145 Q100 165 120 145" stroke="#222" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <line x1="120" y1="145" x2="128" y2="140" stroke="#222" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- teeth -->
+  <rect x="92" y="145" width="7" height="8" rx="1" fill="#fff"/>
+  <rect x="101" y="145" width="7" height="8" rx="1" fill="#fff"/>
+  <!-- arms with V-sign -->
+  <line x1="55" y1="200" x2="25" y2="170" stroke="url(#jg)" stroke-width="10" stroke-linecap="round"/>
+  <line x1="25" y1="170" x2="15" y2="145" stroke="url(#jg)" stroke-width="6" stroke-linecap="round"/>
+  <line x1="25" y1="170" x2="30" y2="142" stroke="url(#jg)" stroke-width="6" stroke-linecap="round"/>
+  <line x1="145" y1="200" x2="170" y2="180" stroke="url(#jg)" stroke-width="10" stroke-linecap="round"/>
+  <!-- legs -->
+  <line x1="80" y1="260" x2="75" y2="295" stroke="url(#jg)" stroke-width="12" stroke-linecap="round"/>
+  <line x1="120" y1="260" x2="125" y2="295" stroke="url(#jg)" stroke-width="12" stroke-linecap="round"/>
+</svg>`,
+
+pomni: `<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- jester hat -->
+  <path d="M55 100 Q40 40 70 60 Q80 30 100 55 Q120 30 130 60 Q160 40 145 100" fill="#e74c3c" stroke="#c0392b" stroke-width="2"/>
+  <circle cx="70" cy="55" r="8" fill="#f1c40f"/>
+  <circle cx="130" cy="55" r="8" fill="#f1c40f"/>
+  <path d="M55 100 Q65 80 80 95" fill="#3498db" stroke="#2980b9" stroke-width="1"/>
+  <path d="M120 95 Q135 80 145 100" fill="#3498db" stroke="#2980b9" stroke-width="1"/>
+  <!-- head -->
+  <circle cx="100" cy="130" r="45" fill="#fce4d6" stroke="#d4a574" stroke-width="2"/>
+  <!-- eyes - wide panicked -->
+  <ellipse cx="82" cy="125" rx="12" ry="14" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <circle cx="82" cy="127" r="7" fill="#e74c3c"/>
+  <circle cx="82" cy="127" r="4" fill="#222"/>
+  <circle cx="79" cy="124" r="2.5" fill="#fff"/>
+  <ellipse cx="118" cy="125" rx="12" ry="14" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <circle cx="118" cy="127" r="7" fill="#3498db"/>
+  <circle cx="118" cy="127" r="4" fill="#222"/>
+  <circle cx="115" cy="124" r="2.5" fill="#fff"/>
+  <!-- worried mouth -->
+  <path d="M85 150 Q100 142 115 150" stroke="#c0392b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- body -->
+  <path d="M65 170 L60 260 L140 260 L135 170 Z" fill="#e74c3c" stroke="#c0392b" stroke-width="2"/>
+  <path d="M80 170 L85 260" stroke="#3498db" stroke-width="15"/>
+  <path d="M120 170 L115 260" stroke="#3498db" stroke-width="15"/>
+  <!-- collar -->
+  <path d="M65 170 Q80 185 100 175 Q120 185 135 170" fill="#f1c40f" stroke="#d4a017" stroke-width="1"/>
+  <!-- arms -->
+  <line x1="60" y1="190" x2="35" y2="230" stroke="#fce4d6" stroke-width="8" stroke-linecap="round"/>
+  <line x1="140" y1="190" x2="165" y2="230" stroke="#fce4d6" stroke-width="8" stroke-linecap="round"/>
+  <!-- legs -->
+  <line x1="80" y1="260" x2="75" y2="295" stroke="#e74c3c" stroke-width="10" stroke-linecap="round"/>
+  <line x1="120" y1="260" x2="125" y2="295" stroke="#3498db" stroke-width="10" stroke-linecap="round"/>
+  <ellipse cx="75" cy="295" rx="12" ry="6" fill="#e74c3c"/>
+  <ellipse cx="125" cy="295" rx="12" ry="6" fill="#3498db"/>
+</svg>`,
+
+caine: `<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f9e547"/><stop offset="100%" stop-color="#d4a017"/></linearGradient>
+  <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <!-- top hat -->
+  <rect x="60" y="30" width="80" height="60" rx="5" fill="#222" stroke="#444" stroke-width="2"/>
+  <rect x="45" y="85" width="110" height="12" rx="6" fill="#333" stroke="#555" stroke-width="1.5"/>
+  <rect x="75" y="75" width="50" height="12" fill="#e74c3c"/>
+  <!-- floating jaw/teeth - the iconic look -->
+  <path d="M55 120 Q60 100 100 105 Q140 100 145 120 L140 150 Q100 170 60 150 Z" fill="url(#cg)" stroke="#b8860b" stroke-width="2" filter="url(#glow)"/>
+  <!-- eyes on the jaw -->
+  <circle cx="80" cy="120" r="10" fill="#fff"/>
+  <circle cx="80" cy="120" r="6" fill="#222"/>
+  <circle cx="78" cy="118" r="2.5" fill="#fff"/>
+  <circle cx="120" cy="120" r="10" fill="#fff"/>
+  <circle cx="120" cy="120" r="6" fill="#222"/>
+  <circle cx="118" cy="118" r="2.5" fill="#fff"/>
+  <!-- teeth row -->
+  <rect x="68" y="140" width="10" height="14" rx="2" fill="#fff" stroke="#ddd" stroke-width=".5"/>
+  <rect x="80" y="140" width="10" height="16" rx="2" fill="#fff" stroke="#ddd" stroke-width=".5"/>
+  <rect x="92" y="140" width="10" height="14" rx="2" fill="#fff" stroke="#ddd" stroke-width=".5"/>
+  <rect x="104" y="140" width="10" height="16" rx="2" fill="#fff" stroke="#ddd" stroke-width=".5"/>
+  <rect x="116" y="140" width="10" height="14" rx="2" fill="#fff" stroke="#ddd" stroke-width=".5"/>
+  <!-- floating body (ethereal) -->
+  <ellipse cx="100" cy="210" rx="35" ry="40" fill="url(#cg)" opacity=".6" filter="url(#glow)"/>
+  <ellipse cx="100" cy="210" rx="25" ry="30" fill="url(#cg)" opacity=".4"/>
+  <!-- bowtie -->
+  <polygon points="85,175 100,185 115,175 100,195" fill="#e74c3c"/>
+  <!-- arms (thin, puppet-like) -->
+  <line x1="65" y1="200" x2="35" y2="180" stroke="#d4a017" stroke-width="5" stroke-linecap="round"/>
+  <line x1="135" y1="200" x2="165" y2="180" stroke="#d4a017" stroke-width="5" stroke-linecap="round"/>
+  <!-- sparkle effects -->
+  <circle cx="40" cy="130" r="3" fill="#f1c40f" opacity=".7"><animate attributeName="opacity" values=".7;0;.7" dur="1.5s" repeatCount="indefinite"/></circle>
+  <circle cx="160" cy="140" r="2" fill="#f1c40f" opacity=".5"><animate attributeName="opacity" values=".5;0;.5" dur="2s" repeatCount="indefinite"/></circle>
+  <circle cx="100" cy="250" r="2.5" fill="#f1c40f" opacity=".6"><animate attributeName="opacity" values=".6;0;.6" dur="1.8s" repeatCount="indefinite"/></circle>
+</svg>`
+};
+
+// Setup characters
+document.getElementById('charJax').innerHTML = SVGS.jax;
+document.getElementById('charPomni').innerHTML = SVGS.pomni;
+document.getElementById('charCaine').innerHTML = SVGS.caine;
+
+// Canvas background
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
+let W, H;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+window.addEventListener('resize',resize);resize();
+
+// Background state
+let bgHue=260, bgIntensity=0.3, bgGlitch=0, particles=[];
+class Particle{
+  constructor(){this.reset()}
+  reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*2;this.vy=(Math.random()-.5)*2;
+    this.size=Math.random()*3+1;this.life=Math.random()*200+100;this.maxLife=this.life;
+    this.hue=Math.random()*60+bgHue-30}
+  update(){this.x+=this.vx;this.y+=this.vy;this.life--;
+    if(this.life<=0||this.x<0||this.x>W||this.y<0||this.y>H)this.reset()}
+  draw(){const a=this.life/this.maxLife;
+    ctx.fillStyle=`hsla(${this.hue},80%,60%,${a*0.6})`;
+    ctx.fillRect(this.x,this.y,this.size,this.size)}
 }
+for(let i=0;i<80;i++)particles.push(new Particle());
+
+function drawBg(t){
+  ctx.fillStyle=`hsl(${bgHue},30%,${bgIntensity*15}%)`;
+  ctx.fillRect(0,0,W,H);
+  // grid
+  ctx.strokeStyle=`hsla(${bgHue+40},60%,40%,0.08)`;
+  ctx.lineWidth=1;
+  const gs=40;
+  for(let x=0;x<W;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}
+  for(let y=0;y<H;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+  // particles
+  particles.forEach(p=>{p.update();p.draw()});
+  // glitch scanlines
+  if(bgGlitch>0){
+    for(let i=0;i<bgGlitch*20;i++){
+      const y=Math.random()*H;const h=Math.random()*4+1;
+      ctx.fillStyle=`rgba(${Math.random()>0.5?'0,255,0':'255,0,0'},${bgGlitch*0.15})`;
+      ctx.fillRect(Math.random()*50-25,y,W+50,h);
+    }
+  }
+}
+
+let animFrame;
+function renderLoop(t){drawBg(t);animFrame=requestAnimationFrame(renderLoop)}
+renderLoop(0);
+
+// Audio context for sound effects
+let audioCtx;
+function initAudio(){audioCtx=new(window.AudioContext||window.webkitAudioContext)()}
+function playTone(freq,dur,type='sine',vol=0.1){
+  if(!audioCtx)return;
+  const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+  o.type=type;o.frequency.value=freq;g.gain.value=vol;
+  g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+dur);
+  o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+dur);
+}
+function glitchSound(){playTone(80+Math.random()*200,.15,'sawtooth',.08)}
+function dramaticChord(){[220,277,330,440].forEach((f,i)=>setTimeout(()=>playTone(f,.8,'triangle',.06),i*100))}
+function mysteryTone(){playTone(440,.5,'sine',.05);setTimeout(()=>playTone(554,.5,'sine',.04),200)}
+
+// Scene engine
+const dialogue=document.getElementById('dialogue');
+const progress=document.getElementById('progressBar');
+let currentScene=0, sceneTimeout;
+
+function showChar(id,show){
+  const el=document.getElementById('char'+id);
+  if(show)el.classList.add('visible');else el.classList.remove('visible');
+}
+function shakeChar(id,on){
+  const el=document.getElementById('char'+id);
+  if(on)el.classList.add('shake');else el.classList.remove('shake');
+}
+function say(speaker,text,cls){
+  dialogue.querySelector('.speaker').textContent=speaker;
+  dialogue.querySelector('.speaker').className='speaker '+(cls||'');
+  dialogue.querySelector('.text').textContent=text;
+  dialogue.classList.add('visible');
+}
+function hideSay(){dialogue.classList.remove('visible')}
+function flash(dur=200){
+  const f=document.getElementById('flashOverlay');
+  f.style.opacity='1';setTimeout(()=>f.style.opacity='0',dur);
+}
+function setGlitch(level){
+  bgGlitch=level;
+  document.getElementById('glitchOverlay').style.opacity=level>0?Math.min(level*0.3,1):0;
+}
+function shakeScreen(dur=500){
+  document.getElementById('stage').style.animation=`charShake ${dur/5}ms ${Math.floor(dur/50)} linear`;
+  setTimeout(()=>document.getElementById('stage').style.animation='',dur);
+}
+
+// Scene definitions: [delay_ms, action_fn]
+const scenes = [
+  // Scene 1: Opening - dark circus
+  [0, ()=>{bgHue=260;bgIntensity=0.1;hideSay();showChar('Jax',false);showChar('Pomni',false);showChar('Caine',false)}],
+  [2000, ()=>{dramaticChord();flash(400);showChar('Caine',true);bgIntensity=0.5}],
+  [1500, ()=>say('קיין','!ברוכים הבאים להרפתקה חדשה','caine')],
+  [3500, ()=>say('קיין','היום... אתם תחפשו את היציאה הזהובה! ✨','caine')],
+  [4000, ()=>{mysteryTone();say('קיין','מי שימצא אותה... ייצא מהסירקוס. לנצח. 🎪','caine')}],
+  
+  // Scene 2: Jax and Pomni appear
+  [4500, ()=>{flash(150);showChar('Jax',true);say('ג\'קס','יוווו, עוד הרפתקה? אני בפנים! ✌️','jax')}],
+  [3500, ()=>{showChar('Pomni',true);say('פומני','ר-רגע... יציאה מהסירקוס?! זה... זה אמיתי?! 😰','pomni')}],
+  [3500, ()=>say('ג\'קס','רגועה פומני, זה בטח עוד טריק של קיין. כרגיל. 😏','jax')],
+  [3000, ()=>say('קיין','הו הו הו! הפעם זה אמיתי לגמרי! ...אולי. 😁','caine')],
+  
+  // Scene 3: Entering the glitchy world
+  [3500, ()=>{hideSay();bgHue=120;bgIntensity=0.6;setGlitch(0.5);flash(300);
+    glitchSound();playTone(150,.3,'sawtooth',.05)}],
+  [1500, ()=>say('פומני','מה... מה קורה?! הכל נראה... שבור! 😱','pomni')],
+  [3000, ()=>{setGlitch(1);say('ג\'קס','וואו, אחלה עיצוב. מי עשה פה את הגרפיקה? 🤣','jax')}],
+  [3500, ()=>{bgHue=180;setGlitch(1.5);say('קיין','ברוכים הבאים לעולם הגליץ\'! כאן הכללים... שונים. 😈','caine')}],
+  
+  // Scene 4: Things get weirder
+  [4000, ()=>{bgHue=0;bgIntensity=0.8;setGlitch(2);shakeScreen(800);
+    say('פומני','הרצפה! היא נעלמת! אני לא יכולה... לא יכולה... 😭','pomni');shakeChar('Pomni',true)}],
+  [3500, ()=>{shakeChar('Pomni',false);say('ג\'קס','דרמה קווין. הרצפה פה, את פה, הכל בסדר. שנמשיך? 😎','jax')}],
+  [3500, ()=>{bgHue=300;setGlitch(1);say('ג\'קס','רגע... מה זה שם? ✨ נראה כמו... דלת זהובה?','jax');mysteryTone()}],
+  [3000, ()=>say('פומני','היציאה הזהובה?! ג\'קס, מצאת אותה?! 🤩','pomni')],
+  [3000, ()=>say('ג\'קס','חחח רגועה, בואי נבדוק קודם. אני לא סומך על שום דבר פה. 🤔','jax')],
+  
+  // Scene 5: Glitch monster appears!
+  [3500, ()=>{hideSay();bgHue=0;bgIntensity=1;setGlitch(3);shakeScreen(1500);flash(500);
+    dramaticChord();glitchSound();
+    setTimeout(glitchSound,200);setTimeout(glitchSound,400)}],
+  [2000, ()=>{say('','⚠️ !מפלצת גליץ\' ענקית מופיעה ⚠️','');
+    shakeChar('Pomni',true);shakeChar('Jax',true)}],
+  [2500, ()=>{say('פומני','אאאאה!! מה זה הדבר הזה?! זה רוצה לאכול אותנו!! 😱😱😱','pomni');
+    shakeScreen(600)}],
+  [3000, ()=>{shakeChar('Jax',false);say('ג\'קס','אוקיי, זה קצת פחות מצחיק ממה שחשבתי... 😅','jax')}],
+  [3000, ()=>{say('קיין','אופס! לא תכננתי את הדבר הזה! ...או שכן? 🤭','caine');bgHue=40}],
+  
+  // Scene 6: Jax is brave!
+  [3500, ()=>{setGlitch(2);shakeChar('Pomni',false);
+    say('ג\'קס','תשמעי פומני, תישארי מאחוריי. אני אטפל בזה. 💪','jax')}],
+  [3000, ()=>say('פומני','ג\'קס?! מה... מה אתה עושה?! 😧','pomni')],
+  [2500, ()=>{flash(300);setGlitch(4);shakeScreen(1000);
+    say('ג\'קס','!הייייי, מפלצת! רוצה לראות טריק קסם? ✌️🐰','jax');
+    dramaticChord()}],
+  [3000, ()=>{setGlitch(1);bgIntensity=0.5;bgHue=280;flash(600);
+    say('','...המפלצת נעלמת בפיצוץ של פיקסלים! 💥✨','')}],
+  [3000, ()=>say('פומני','ג\'קס!! איך עשית את זה?! 🤯','pomni')],
+  [2500, ()=>say('ג\'קס','מה, את לא יודעת? ארנבים סגולים זה הקריפטונייט של גליצ\'ים. ברור. 😏✌️','jax')],
+  
+  // Scene 7: The Golden Exit - it's fake!
+  [4000, ()=>{bgHue=50;bgIntensity=0.7;setGlitch(0.3);mysteryTone();
+    say('פומני','הנה! הדלת הזהובה! יציאה מהסירקוס! 🚪✨','pomni')}],
+  [3500, ()=>say('ג\'קס','ממממ... משהו פה מריח לי לא טוב... 🤨','jax')],
+  [3000, ()=>{flash(400);setGlitch(2);shakeScreen(500);bgHue=0;
+    say('קיין','הא הא הא!! הפתעה!! היציאה הזהובה... מזויפת! 🤣🎪','caine');
+    playTone(200,.5,'square',.06)}],
+  [3500, ()=>{say('פומני','לא!! לא לא לא!! קיין!! למה?! 😭😭','pomni');shakeChar('Pomni',true)}],
+  [3000, ()=>{shakeChar('Pomni',false);bgHue=270;setGlitch(0.5);bgIntensity=0.4;
+    say('קיין','כי, חביבתי... הסירקוס הוא הבית שלכם! ולעולם לא תעזבו! 😁🎪','caine')}],
+  
+  // Scene 8: Jax's twist
+  [4000, ()=>{say('ג\'קס','חחחחח... אתה יודע קיין, ידעתי מההתחלה. 😏','jax');bgHue=260;setGlitch(0)}],
+  [3000, ()=>say('קיין','...מה? 😐','caine')],
+  [2500, ()=>say('ג\'קס','שהיציאה מזויפת. שהמפלצת שלך מחזור. שהכל משחק. 🤷‍♂️','jax')],
+  [3500, ()=>say('פומני','ג\'קס... אם ידעת... למה באת?! 😤','pomni')],
+  [3500, ()=>{mysteryTone();say('ג\'קס','כי, פומני... מישהו היה צריך לשמור עלייך שם, לא? ✌️😉','jax')}],
+  [3500, ()=>{say('פומני','...ג\'קס... 🥺','pomni')}],
+  
+  // Scene 9: Cliffhanger ending
+  [3500, ()=>{bgHue=0;bgIntensity=0.2;setGlitch(3);shakeScreen(2000);flash(300);
+    hideSay();dramaticChord();glitchSound();
+    setTimeout(glitchSound,300);setTimeout(glitchSound,600)}],
+  [2500, ()=>{setGlitch(5);say('','...אבל רגע. מה זה הרעש הזה?! 💀','');shakeScreen(1000)}],
+  [3000, ()=>{bgIntensity=0;setGlitch(0);hideSay();
+    showChar('Jax',false);showChar('Pomni',false);showChar('Caine',false)}],
+  [3000, ()=>{
+    document.getElementById('endScreen').style.display='flex';
+    dramaticChord();setTimeout(dramaticChord,500);
+  }],
+];
+
+// Calculate total duration for progress bar
+let totalDuration = 0;
+const cumulativeTimes = [];
+scenes.forEach(([delay])=>{totalDuration+=delay;cumulativeTimes.push(totalDuration)});
+
+function runScenes(){
+  let elapsed=0;
+  scenes.forEach(([delay,fn],i)=>{
+    elapsed+=delay;
+    setTimeout(()=>{
+      fn();
+      progress.style.width=((i+1)/scenes.length*100)+'%';
+    },elapsed);
+  });
+}
+
+// Start
+document.getElementById('startBtn').addEventListener('click',()=>{
+  initAudio();
+  const ts=document.getElementById('title-screen');
+  ts.style.opacity='0';setTimeout(()=>ts.style.display='none',1000);
+  dramaticChord();
+  runScenes();
+});
 </script>
 </body>
 </html>
