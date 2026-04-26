@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jax Clapping 3D 🐰</title>
+<title>Jax ✌️🐰</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: #0a0a1a; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
@@ -28,8 +28,8 @@ canvas { display: block; }
 </style>
 </head>
 <body>
-<div id="ui">🐰 Jax Clapping! 👏</div>
-<div id="hint">גרור לסובב • לחץ לסאונד 🔊</div>
+<div id="ui">🐰 Jax ✌️</div>
+<div id="hint">גרור לסובב 🔄</div>
 
 <script type="importmap">
 {
@@ -43,13 +43,11 @@ canvas { display: block; }
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-// Scene
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x0a0a1a);
-scene.fog = new THREE.FogExp2(0x0a0a1a, 0.015);
 
 const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
-camera.position.set(0, 2, 8);
+camera.position.set(0, 2.5, 9);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -66,139 +64,120 @@ controls.dampingFactor = 0.05;
 controls.target.set(0, 1.5, 0);
 
 // Lights
-const ambientLight = new THREE.AmbientLight(0x4a2080, 0.6);
-scene.add(ambientLight);
-
+scene.add(new THREE.AmbientLight(0x4a2080, 0.7));
 const mainLight = new THREE.DirectionalLight(0xffffff, 1.5);
 mainLight.position.set(5, 8, 5);
 mainLight.castShadow = true;
-mainLight.shadow.mapSize.set(1024, 1024);
 scene.add(mainLight);
-
 const purpleLight = new THREE.PointLight(0x9d4edd, 2, 15);
 purpleLight.position.set(-3, 4, 2);
 scene.add(purpleLight);
-
 const goldLight = new THREE.PointLight(0xf0c040, 1.5, 10);
 goldLight.position.set(3, 2, 3);
 scene.add(goldLight);
-
-const rimLight = new THREE.DirectionalLight(0xc77dff, 0.8);
-rimLight.position.set(-3, 3, -5);
-scene.add(rimLight);
+scene.add(new THREE.DirectionalLight(0xc77dff, 0.8)).position.set(-3, 3, -5);
 
 // Materials
-const purpleMat = new THREE.MeshStandardMaterial({ 
-  color: 0x8b3dc7, roughness: 0.4, metalness: 0.1 
-});
-const darkPurpleMat = new THREE.MeshStandardMaterial({ 
-  color: 0x6a2fa0, roughness: 0.5, metalness: 0.1 
-});
-const earInnerMat = new THREE.MeshStandardMaterial({ 
-  color: 0xe0a0f0, roughness: 0.6 
-});
-const overallMat = new THREE.MeshStandardMaterial({ 
-  color: 0xd4465a, roughness: 0.4, metalness: 0.05 
-});
-const yellowMat = new THREE.MeshStandardMaterial({ 
-  color: 0xf0c040, roughness: 0.3, metalness: 0.2 
-});
-const whiteMat = new THREE.MeshStandardMaterial({ 
-  color: 0xffffff, roughness: 0.3 
-});
-const blackMat = new THREE.MeshStandardMaterial({ 
-  color: 0x1a1a2e, roughness: 0.5 
-});
-const yellowEyeMat = new THREE.MeshStandardMaterial({ 
-  color: 0xf5d442, roughness: 0.3 
-});
-const mouthMat = new THREE.MeshStandardMaterial({ 
-  color: 0x2a1040, roughness: 0.6 
-});
-const shoeMat = new THREE.MeshStandardMaterial({ 
-  color: 0x9d4edd, roughness: 0.4 
-});
+const purpleMat = new THREE.MeshStandardMaterial({ color: 0x8b3dc7, roughness: 0.4, metalness: 0.1 });
+const earInnerMat = new THREE.MeshStandardMaterial({ color: 0xe0a0f0, roughness: 0.6 });
+const overallMat = new THREE.MeshStandardMaterial({ color: 0xd4465a, roughness: 0.4, metalness: 0.05 });
+const yellowMat = new THREE.MeshStandardMaterial({ color: 0xf0c040, roughness: 0.3, metalness: 0.2 });
+const whiteMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3 });
+const blackMat = new THREE.MeshStandardMaterial({ color: 0x1a1a2e, roughness: 0.5 });
+const yellowEyeMat = new THREE.MeshStandardMaterial({ color: 0xf5d442, roughness: 0.3 });
+const mouthMat = new THREE.MeshStandardMaterial({ color: 0x2a1040, roughness: 0.6 });
+const shoeMat = new THREE.MeshStandardMaterial({ color: 0x9d4edd, roughness: 0.4 });
 
-// Jax group
 const jax = new THREE.Group();
+
+// The whole character is tilted back — falling/leaning back pose like the image
+jax.rotation.z = 0.25; // slight tilt
+jax.rotation.x = -0.15; // leaning back
 
 // --- HEAD ---
 const headGeo = new THREE.SphereGeometry(0.7, 32, 32);
 headGeo.scale(1, 0.95, 0.9);
 const head = new THREE.Mesh(headGeo, purpleMat);
 head.position.y = 3.6;
+head.rotation.z = -0.1; // slight head tilt
 head.castShadow = true;
 jax.add(head);
 
-// Eyes
+// Eyes — left eye winking, right eye open
 const eyeGroup = new THREE.Group();
 eyeGroup.position.y = 3.7;
 
-// Left eye (the one with the wink in the image)
-const leftEyeGeo = new THREE.SphereGeometry(0.22, 32, 32);
-leftEyeGeo.scale(1, 0.6, 0.5);
-const leftEye = new THREE.Mesh(leftEyeGeo, yellowEyeMat);
-leftEye.position.set(-0.25, 0, 0.55);
-eyeGroup.add(leftEye);
+// Left eye — WINK (just a line)
+const winkGeo = new THREE.BoxGeometry(0.3, 0.04, 0.05);
+const winkEye = new THREE.Mesh(winkGeo, blackMat);
+winkEye.position.set(-0.25, 0.02, 0.6);
+winkEye.rotation.z = 0.1;
+eyeGroup.add(winkEye);
 
-const leftPupilGeo = new THREE.SphereGeometry(0.1, 16, 16);
-leftPupilGeo.scale(1, 1.2, 0.5);
-const leftPupil = new THREE.Mesh(leftPupilGeo, blackMat);
-leftPupil.position.set(-0.25, 0, 0.65);
-eyeGroup.add(leftPupil);
-
-// Right eye
+// Right eye — open, big
 const rightEyeGeo = new THREE.SphereGeometry(0.22, 32, 32);
-rightEyeGeo.scale(1, 0.6, 0.5);
+rightEyeGeo.scale(1.1, 0.7, 0.5);
 const rightEye = new THREE.Mesh(rightEyeGeo, yellowEyeMat);
-rightEye.position.set(0.25, 0, 0.55);
+rightEye.position.set(0.28, 0.05, 0.55);
 eyeGroup.add(rightEye);
 
 const rightPupilGeo = new THREE.SphereGeometry(0.1, 16, 16);
 rightPupilGeo.scale(1, 1.2, 0.5);
 const rightPupil = new THREE.Mesh(rightPupilGeo, blackMat);
-rightPupil.position.set(0.25, 0, 0.65);
+rightPupil.position.set(0.28, 0.05, 0.66);
 eyeGroup.add(rightPupil);
+
+// Eyebrow for the open eye
+const browGeo = new THREE.BoxGeometry(0.28, 0.05, 0.05);
+const brow = new THREE.Mesh(browGeo, new THREE.MeshStandardMaterial({color: 0x6a2fa0}));
+brow.position.set(0.28, 0.25, 0.6);
+brow.rotation.z = -0.15;
+eyeGroup.add(brow);
 
 jax.add(eyeGroup);
 
-// Big grin mouth
-const mouthGeo = new THREE.TorusGeometry(0.3, 0.06, 8, 32, Math.PI);
-const mouth = new THREE.Mesh(mouthGeo, mouthMat);
-mouth.position.set(0, 3.4, 0.55);
-mouth.rotation.x = Math.PI;
-jax.add(mouth);
+// Big grin — wide smile
+const mouthShape = new THREE.Shape();
+mouthShape.moveTo(-0.35, 0);
+mouthShape.quadraticCurveTo(0, -0.25, 0.35, 0);
+mouthShape.quadraticCurveTo(0, -0.05, -0.35, 0);
+const mouthExtrudeSettings = { depth: 0.05, bevelEnabled: false };
+const mouthMesh = new THREE.Mesh(
+  new THREE.ExtrudeGeometry(mouthShape, mouthExtrudeSettings), mouthMat
+);
+mouthMesh.position.set(0, 3.3, 0.55);
+jax.add(mouthMesh);
 
 // Teeth
-const toothGeo = new THREE.BoxGeometry(0.08, 0.1, 0.05);
-const leftTooth = new THREE.Mesh(toothGeo, whiteMat);
-leftTooth.position.set(-0.08, 3.32, 0.6);
-jax.add(leftTooth);
-const rightTooth = new THREE.Mesh(toothGeo, whiteMat);
-rightTooth.position.set(0.08, 3.32, 0.6);
-jax.add(rightTooth);
+const toothGeo = new THREE.BoxGeometry(0.07, 0.1, 0.05);
+[-0.1, 0.1].forEach(x => {
+  const tooth = new THREE.Mesh(toothGeo, whiteMat);
+  tooth.position.set(x, 3.28, 0.62);
+  jax.add(tooth);
+});
 
 // --- EARS ---
 function createEar(side) {
-  const earGroup = new THREE.Group();
-  // Outer ear - long rabbit ear
-  const earGeo = new THREE.CapsuleGeometry(0.12, 1.0, 8, 16);
+  const g = new THREE.Group();
+  const earGeo = new THREE.CapsuleGeometry(0.12, 1.2, 8, 16);
   const ear = new THREE.Mesh(earGeo, purpleMat);
   ear.castShadow = true;
-  earGroup.add(ear);
-  // Inner ear
-  const innerGeo = new THREE.CapsuleGeometry(0.06, 0.7, 8, 16);
-  const inner = new THREE.Mesh(innerGeo, earInnerMat);
-  inner.position.z = 0.05;
-  earGroup.add(inner);
-  
-  earGroup.position.set(side * 0.35, 4.8, 0);
-  earGroup.rotation.z = side * -0.15;
-  return earGroup;
+  g.add(ear);
+  const innerGeo = new THREE.CapsuleGeometry(0.06, 0.8, 8, 16);
+  g.add(new THREE.Mesh(innerGeo, earInnerMat));
+  g.position.set(side * 0.35, 4.9, 0);
+  g.rotation.z = side * -0.2;
+  return g;
 }
+// Left ear droops more (like in image)
 const leftEar = createEar(-1);
-const rightEar = createEar(1);
+leftEar.rotation.z = 0.4; // flopping outward
+leftEar.rotation.x = -0.3;
 jax.add(leftEar);
+
+const rightEar = createEar(1);
+rightEar.rotation.z = -0.1;
+rightEar.rotation.x = 0.15;
 jax.add(rightEar);
 
 // --- BODY ---
@@ -215,110 +194,153 @@ overall.position.y = 2.2;
 jax.add(overall);
 
 // Straps
-function createStrap(side) {
-  const strapGeo = new THREE.BoxGeometry(0.08, 0.5, 0.08);
-  const strap = new THREE.Mesh(strapGeo, overallMat);
-  strap.position.set(side * 0.25, 2.7, 0.15);
-  strap.rotation.z = side * 0.1;
-  return strap;
-}
-jax.add(createStrap(-1));
-jax.add(createStrap(1));
+[[-1, 0.05], [1, -0.05]].forEach(([side, rot]) => {
+  const sg = new THREE.BoxGeometry(0.08, 0.5, 0.08);
+  const s = new THREE.Mesh(sg, overallMat);
+  s.position.set(side * 0.25, 2.7, 0.15);
+  s.rotation.z = rot + side * 0.1;
+  jax.add(s);
+  // Button
+  const bg = new THREE.CylinderGeometry(0.04, 0.04, 0.03, 16);
+  const b = new THREE.Mesh(bg, yellowMat);
+  b.position.set(side * 0.28, 2.5, 0.4);
+  b.rotation.x = Math.PI / 2;
+  jax.add(b);
+});
 
-// Strap buttons
-function createButton(side) {
-  const btnGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.03, 16);
-  const btn = new THREE.Mesh(btnGeo, yellowMat);
-  btn.position.set(side * 0.28, 2.5, 0.4);
-  btn.rotation.x = Math.PI / 2;
-  return btn;
-}
-jax.add(createButton(-1));
-jax.add(createButton(1));
-
-// --- ARMS ---
+// --- LEFT ARM (down/back, relaxed) ---
 const leftArmGroup = new THREE.Group();
-const rightArmGroup = new THREE.Group();
+const leftArmPivot = new THREE.Group();
 
-function createArm() {
-  const armGroup = new THREE.Group();
-  // Upper arm
-  const upperGeo = new THREE.CapsuleGeometry(0.1, 0.5, 8, 16);
-  const upper = new THREE.Mesh(upperGeo, purpleMat);
-  upper.position.y = -0.3;
-  upper.castShadow = true;
-  armGroup.add(upper);
-  // Forearm
-  const foreGeo = new THREE.CapsuleGeometry(0.08, 0.4, 8, 16);
-  const fore = new THREE.Mesh(foreGeo, purpleMat);
-  fore.position.y = -0.7;
-  fore.castShadow = true;
-  armGroup.add(fore);
-  // Hand
-  const handGeo = new THREE.SphereGeometry(0.14, 16, 16);
-  const hand = new THREE.Mesh(handGeo, yellowMat);
-  hand.position.y = -1.0;
-  hand.castShadow = true;
-  armGroup.add(hand);
-  // Fingers
-  for (let i = -1; i <= 1; i++) {
-    const fingerGeo = new THREE.CapsuleGeometry(0.03, 0.1, 4, 8);
-    const finger = new THREE.Mesh(fingerGeo, yellowMat);
-    finger.position.set(i * 0.06, -1.15, 0.05);
-    armGroup.add(finger);
-  }
-  return armGroup;
-}
+// Upper arm
+const luGeo = new THREE.CapsuleGeometry(0.1, 0.55, 8, 16);
+const luArm = new THREE.Mesh(luGeo, purpleMat);
+luArm.position.y = -0.3;
+luArm.castShadow = true;
+leftArmPivot.add(luArm);
 
-const leftArm = createArm();
-leftArm.position.set(-0.6, 2.9, 0);
-leftArmGroup.add(leftArm);
+// Forearm
+const lfGeo = new THREE.CapsuleGeometry(0.08, 0.45, 8, 16);
+const lfArm = new THREE.Mesh(lfGeo, purpleMat);
+lfArm.position.y = -0.7;
+lfArm.castShadow = true;
+leftArmPivot.add(lfArm);
+
+// Hand
+const lhGeo = new THREE.SphereGeometry(0.14, 16, 16);
+const lHand = new THREE.Mesh(lhGeo, yellowMat);
+lHand.position.y = -1.0;
+leftArmPivot.add(lHand);
+
+leftArmPivot.position.set(-0.65, 2.8, 0);
+leftArmPivot.rotation.z = 0.5; // arm going down/outward
+leftArmPivot.rotation.x = 0.3; // slightly back
+leftArmGroup.add(leftArmPivot);
 jax.add(leftArmGroup);
 
-const rightArm = createArm();
-rightArm.position.set(0.6, 2.9, 0);
-rightArmGroup.add(rightArm);
+// --- RIGHT ARM (up, doing V sign!) ---
+const rightArmGroup = new THREE.Group();
+const rightArmPivot = new THREE.Group();
+
+// Upper arm
+const ruGeo = new THREE.CapsuleGeometry(0.1, 0.55, 8, 16);
+const ruArm = new THREE.Mesh(ruGeo, purpleMat);
+ruArm.position.y = -0.3;
+ruArm.castShadow = true;
+rightArmPivot.add(ruArm);
+
+// Forearm
+const rfGeo = new THREE.CapsuleGeometry(0.08, 0.45, 8, 16);
+const rfArm = new THREE.Mesh(rfGeo, purpleMat);
+rfArm.position.y = -0.7;
+rfArm.castShadow = true;
+rightArmPivot.add(rfArm);
+
+// Hand (palm)
+const rhGeo = new THREE.SphereGeometry(0.13, 16, 16);
+rhGeo.scale(1, 1, 0.7);
+const rHand = new THREE.Mesh(rhGeo, yellowMat);
+rHand.position.set(0, -1.0, 0);
+rightArmPivot.add(rHand);
+
+// V-Sign fingers! ✌️
+// Index finger
+const fingerGeo = new THREE.CapsuleGeometry(0.035, 0.25, 6, 8);
+const indexFinger = new THREE.Mesh(fingerGeo, yellowMat);
+indexFinger.position.set(-0.06, -1.25, 0.02);
+indexFinger.rotation.z = 0.25;
+rightArmPivot.add(indexFinger);
+
+// Middle finger
+const middleFinger = new THREE.Mesh(fingerGeo.clone(), yellowMat);
+middleFinger.position.set(0.06, -1.25, 0.02);
+middleFinger.rotation.z = -0.25;
+rightArmPivot.add(middleFinger);
+
+// Folded ring finger (short, curled)
+const foldedGeo = new THREE.CapsuleGeometry(0.03, 0.08, 4, 8);
+const ringFinger = new THREE.Mesh(foldedGeo, yellowMat);
+ringFinger.position.set(0.14, -1.08, 0.04);
+rightArmPivot.add(ringFinger);
+
+// Folded pinky
+const pinkyFinger = new THREE.Mesh(foldedGeo.clone(), yellowMat);
+pinkyFinger.position.set(0.18, -1.04, 0.04);
+rightArmPivot.add(pinkyFinger);
+
+// Thumb tucked
+const thumb = new THREE.Mesh(foldedGeo.clone(), yellowMat);
+thumb.position.set(-0.14, -1.05, 0.06);
+thumb.rotation.z = 0.5;
+rightArmPivot.add(thumb);
+
+rightArmPivot.position.set(0.65, 2.8, 0);
+// Arm raised up and slightly outward — V sign up high
+rightArmPivot.rotation.z = -2.8; // arm going UP
+rightArmPivot.rotation.x = -0.2;
+rightArmGroup.add(rightArmPivot);
 jax.add(rightArmGroup);
 
-// --- LEGS ---
+// --- LEGS (kicked up, like falling back) ---
 function createLeg(side) {
-  const legGroup = new THREE.Group();
-  // Upper leg (overall colored)
+  const g = new THREE.Group();
   const upperGeo = new THREE.CapsuleGeometry(0.14, 0.5, 8, 16);
   const upper = new THREE.Mesh(upperGeo, overallMat);
   upper.position.y = -0.35;
   upper.castShadow = true;
-  legGroup.add(upper);
-  // Lower leg
+  g.add(upper);
   const lowerGeo = new THREE.CapsuleGeometry(0.12, 0.4, 8, 16);
   const lower = new THREE.Mesh(lowerGeo, overallMat);
   lower.position.y = -0.8;
   lower.castShadow = true;
-  legGroup.add(lower);
-  // Shoe
+  g.add(lower);
   const shoeGeo = new THREE.SphereGeometry(0.18, 16, 16);
   shoeGeo.scale(1.3, 0.6, 1.6);
   const shoe = new THREE.Mesh(shoeGeo, shoeMat);
   shoe.position.set(0, -1.1, 0.08);
   shoe.castShadow = true;
-  legGroup.add(shoe);
-
-  legGroup.position.set(side * 0.25, 1.7, 0);
-  return legGroup;
+  g.add(shoe);
+  g.position.set(side * 0.25, 1.7, 0);
+  return g;
 }
+
 const leftLeg = createLeg(-1);
-const rightLeg = createLeg(1);
+// Legs kicked up — like in the image
+leftLeg.rotation.x = -0.8;
+leftLeg.rotation.z = 0.3;
 jax.add(leftLeg);
+
+const rightLeg = createLeg(1);
+rightLeg.rotation.x = -0.5;
+rightLeg.rotation.z = -0.2;
 jax.add(rightLeg);
 
 scene.add(jax);
 
 // --- FLOOR ---
 const floorGeo = new THREE.CircleGeometry(8, 64);
-const floorMat = new THREE.MeshStandardMaterial({ 
-  color: 0x150a30, roughness: 0.8, metalness: 0.2 
-});
-const floor = new THREE.Mesh(floorGeo, floorMat);
+const floorMat2 = new THREE.MeshStandardMaterial({ color: 0x150a30, roughness: 0.8, metalness: 0.2 });
+const floor = new THREE.Mesh(floorGeo, floorMat2);
 floor.rotation.x = -Math.PI / 2;
 floor.receiveShadow = true;
 scene.add(floor);
@@ -337,66 +359,8 @@ for (let i = 0; i < particleCount; i++) {
 }
 particlesGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 particlesGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-const particleMat = new THREE.PointsMaterial({ 
-  size: 0.06, vertexColors: true, transparent: true, opacity: 0.7 
-});
-const particles = new THREE.Points(particlesGeo, particleMat);
-scene.add(particles);
-
-// --- CLAP SOUND ---
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-function playClap() {
-  const bufferSize = audioCtx.sampleRate * 0.12;
-  const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-  const data = buffer.getChannelData(0);
-  for (let i = 0; i < bufferSize; i++) {
-    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 4);
-  }
-  const source = audioCtx.createBufferSource();
-  source.buffer = buffer;
-  const filter = audioCtx.createBiquadFilter();
-  filter.type = 'bandpass'; filter.frequency.value = 3500; filter.Q.value = 0.7;
-  const gain = audioCtx.createGain();
-  gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
-  source.connect(filter).connect(gain).connect(audioCtx.destination);
-  source.start();
-}
-
-// Clap particles
-const clapParticles = [];
-function spawnClapParticle() {
-  const geo = new THREE.SphereGeometry(0.05, 8, 8);
-  const mat = new THREE.MeshBasicMaterial({ 
-    color: new THREE.Color().setHSL(0.13, 0.9, 0.6), transparent: true 
-  });
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.set(
-    (Math.random() - 0.5) * 0.5,
-    1.9 + Math.random() * 0.3,
-    0.3 + Math.random() * 0.3
-  );
-  mesh.userData.velocity = new THREE.Vector3(
-    (Math.random() - 0.5) * 0.1,
-    Math.random() * 0.08 + 0.03,
-    Math.random() * 0.05
-  );
-  mesh.userData.life = 1;
-  scene.add(mesh);
-  clapParticles.push(mesh);
-}
-
-let soundOn = false;
-let clapSoundInterval = null;
-renderer.domElement.addEventListener('click', () => {
-  soundOn = !soundOn;
-  if (soundOn) {
-    clapSoundInterval = setInterval(playClap, 500);
-    playClap();
-  } else {
-    clearInterval(clapSoundInterval);
-  }
-});
+const particleMat2 = new THREE.PointsMaterial({ size: 0.06, vertexColors: true, transparent: true, opacity: 0.7 });
+scene.add(new THREE.Points(particlesGeo, particleMat2));
 
 // --- ANIMATION ---
 const clock = new THREE.Clock();
@@ -404,56 +368,23 @@ function animate() {
   requestAnimationFrame(animate);
   const t = clock.getElapsedTime();
 
-  // Clapping arms
-  const clapAngle = Math.sin(t * 12) * 0.5;
-  leftArm.rotation.z = 0.6 + clapAngle * 0.6;
-  leftArm.rotation.x = -0.3;
-  rightArm.rotation.z = -0.6 - clapAngle * 0.6;
-  rightArm.rotation.x = -0.3;
+  // Gentle floating/bobbing — like he's suspended mid-fall
+  jax.position.y = Math.sin(t * 1.5) * 0.15;
+  jax.rotation.z = 0.25 + Math.sin(t * 0.8) * 0.05;
 
-  // Spawn clap particles at clap moment
-  if (Math.sin(t * 12) > 0.9) {
-    for (let i = 0; i < 3; i++) spawnClapParticle();
-  }
+  // Ears gentle sway
+  leftEar.rotation.z = 0.4 + Math.sin(t * 2) * 0.1;
+  rightEar.rotation.z = -0.1 + Math.sin(t * 2 + 1) * 0.08;
 
-  // Update clap particles
-  for (let i = clapParticles.length - 1; i >= 0; i--) {
-    const p = clapParticles[i];
-    p.position.add(p.userData.velocity);
-    p.userData.life -= 0.02;
-    p.material.opacity = p.userData.life;
-    p.scale.setScalar(p.userData.life);
-    if (p.userData.life <= 0) {
-      scene.remove(p);
-      p.geometry.dispose();
-      p.material.dispose();
-      clapParticles.splice(i, 1);
-    }
-  }
+  // V-sign hand subtle wave
+  rightArmPivot.rotation.z = -2.8 + Math.sin(t * 3) * 0.08;
 
-  // Body bounce
-  jax.position.y = Math.sin(t * 6) * 0.08;
+  // Legs gentle kick
+  leftLeg.rotation.x = -0.8 + Math.sin(t * 2) * 0.1;
+  rightLeg.rotation.x = -0.5 + Math.sin(t * 2 + Math.PI) * 0.1;
 
-  // Head slight tilt
-  head.rotation.z = Math.sin(t * 3) * 0.05;
-
-  // Ear flop
-  leftEar.rotation.z = -0.15 + Math.sin(t * 6 + 0.5) * 0.08;
-  rightEar.rotation.z = 0.15 - Math.sin(t * 6 + 0.5) * 0.08;
-
-  // Leg bounce
-  leftLeg.rotation.x = Math.sin(t * 6) * 0.1;
-  rightLeg.rotation.x = Math.sin(t * 6 + Math.PI) * 0.1;
-
-  // Wink animation (left eye)
-  const winkCycle = t % 4;
-  if (winkCycle > 3.5) {
-    leftEye.scale.y = 0.1;
-    leftPupil.scale.y = 0.1;
-  } else {
-    leftEye.scale.y = 1;
-    leftPupil.scale.y = 1;
-  }
+  // Purple light pulse
+  purpleLight.intensity = 2 + Math.sin(t * 2) * 0.5;
 
   // Particles float
   const posArr = particlesGeo.attributes.position.array;
@@ -462,9 +393,6 @@ function animate() {
     if (posArr[i*3+1] > 10) posArr[i*3+1] = 0;
   }
   particlesGeo.attributes.position.needsUpdate = true;
-
-  // Purple light pulse
-  purpleLight.intensity = 2 + Math.sin(t * 2) * 0.5;
 
   controls.update();
   renderer.render(scene, camera);
