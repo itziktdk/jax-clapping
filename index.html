@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jax Clapping 3D 🐰</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a1a; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
+canvas { display: block; }
+#ui {
+  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+  color: #c77dff; font-size: 1.8em; text-align: center;
+  text-shadow: 0 0 20px #9d4edd, 0 0 40px #7b2cbf;
+  z-index: 10; pointer-events: none;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+@keyframes glow {
+  from { text-shadow: 0 0 10px #9d4edd; }
+  to { text-shadow: 0 0 30px #c77dff, 0 0 60px #7b2cbf; }
+}
+#hint {
+  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+  color: #c77dff88; font-size: 0.9em; z-index: 10; pointer-events: none;
+  animation: fade 3s ease-in-out infinite;
+}
+@keyframes fade { 0%,100%{opacity:0.4} 50%{opacity:0.9} }
+</style>
+</head>
+<body>
+<div id="ui">🐰 Jax Clapping! 👏</div>
+<div id="hint">גרור לסובב • לחץ לסאונד 🔊</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// Scene
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a0a1a);
+scene.fog = new THREE.FogExp2(0x0a0a1a, 0.015);
+
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
+camera.position.set(0, 2, 8);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.2;
+document.body.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.target.set(0, 1.5, 0);
+
+// Lights
+const ambientLight = new THREE.AmbientLight(0x4a2080, 0.6);
+scene.add(ambientLight);
+
+const mainLight = new THREE.DirectionalLight(0xffffff, 1.5);
+mainLight.position.set(5, 8, 5);
+mainLight.castShadow = true;
+mainLight.shadow.mapSize.set(1024, 1024);
+scene.add(mainLight);
+
+const purpleLight = new THREE.PointLight(0x9d4edd, 2, 15);
+purpleLight.position.set(-3, 4, 2);
+scene.add(purpleLight);
+
+const goldLight = new THREE.PointLight(0xf0c040, 1.5, 10);
+goldLight.position.set(3, 2, 3);
+scene.add(goldLight);
+
+const rimLight = new THREE.DirectionalLight(0xc77dff, 0.8);
+rimLight.position.set(-3, 3, -5);
+scene.add(rimLight);
+
+// Materials
+const purpleMat = new THREE.MeshStandardMaterial({ 
+  color: 0x8b3dc7, roughness: 0.4, metalness: 0.1 
+});
+const darkPurpleMat = new THREE.MeshStandardMaterial({ 
+  color: 0x6a2fa0, roughness: 0.5, metalness: 0.1 
+});
+const earInnerMat = new THREE.MeshStandardMaterial({ 
+  color: 0xe0a0f0, roughness: 0.6 
+});
+const overallMat = new THREE.MeshStandardMaterial({ 
+  color: 0xd4465a, roughness: 0.4, metalness: 0.05 
+});
+const yellowMat = new THREE.MeshStandardMaterial({ 
+  color: 0xf0c040, roughness: 0.3, metalness: 0.2 
+});
+const whiteMat = new THREE.MeshStandardMaterial({ 
+  color: 0xffffff, roughness: 0.3 
+});
+const blackMat = new THREE.MeshStandardMaterial({ 
+  color: 0x1a1a2e, roughness: 0.5 
+});
+const yellowEyeMat = new THREE.MeshStandardMaterial({ 
+  color: 0xf5d442, roughness: 0.3 
+});
+const mouthMat = new THREE.MeshStandardMaterial({ 
+  color: 0x2a1040, roughness: 0.6 
+});
+const shoeMat = new THREE.MeshStandardMaterial({ 
+  color: 0x9d4edd, roughness: 0.4 
+});
+
+// Jax group
+const jax = new THREE.Group();
+
+// --- HEAD ---
+const headGeo = new THREE.SphereGeometry(0.7, 32, 32);
+headGeo.scale(1, 0.95, 0.9);
+const head = new THREE.Mesh(headGeo, purpleMat);
+head.position.y = 3.6;
+head.castShadow = true;
+jax.add(head);
+
+// Eyes
+const eyeGroup = new THREE.Group();
+eyeGroup.position.y = 3.7;
+
+// Left eye (the one with the wink in the image)
+const leftEyeGeo = new THREE.SphereGeometry(0.22, 32, 32);
+leftEyeGeo.scale(1, 0.6, 0.5);
+const leftEye = new THREE.Mesh(leftEyeGeo, yellowEyeMat);
+leftEye.position.set(-0.25, 0, 0.55);
+eyeGroup.add(leftEye);
+
+const leftPupilGeo = new THREE.SphereGeometry(0.1, 16, 16);
+leftPupilGeo.scale(1, 1.2, 0.5);
+const leftPupil = new THREE.Mesh(leftPupilGeo, blackMat);
+leftPupil.position.set(-0.25, 0, 0.65);
+eyeGroup.add(leftPupil);
+
+// Right eye
+const rightEyeGeo = new THREE.SphereGeometry(0.22, 32, 32);
+rightEyeGeo.scale(1, 0.6, 0.5);
+const rightEye = new THREE.Mesh(rightEyeGeo, yellowEyeMat);
+rightEye.position.set(0.25, 0, 0.55);
+eyeGroup.add(rightEye);
+
+const rightPupilGeo = new THREE.SphereGeometry(0.1, 16, 16);
+rightPupilGeo.scale(1, 1.2, 0.5);
+const rightPupil = new THREE.Mesh(rightPupilGeo, blackMat);
+rightPupil.position.set(0.25, 0, 0.65);
+eyeGroup.add(rightPupil);
+
+jax.add(eyeGroup);
+
+// Big grin mouth
+const mouthGeo = new THREE.TorusGeometry(0.3, 0.06, 8, 32, Math.PI);
+const mouth = new THREE.Mesh(mouthGeo, mouthMat);
+mouth.position.set(0, 3.4, 0.55);
+mouth.rotation.x = Math.PI;
+jax.add(mouth);
+
+// Teeth
+const toothGeo = new THREE.BoxGeometry(0.08, 0.1, 0.05);
+const leftTooth = new THREE.Mesh(toothGeo, whiteMat);
+leftTooth.position.set(-0.08, 3.32, 0.6);
+jax.add(leftTooth);
+const rightTooth = new THREE.Mesh(toothGeo, whiteMat);
+rightTooth.position.set(0.08, 3.32, 0.6);
+jax.add(rightTooth);
+
+// --- EARS ---
+function createEar(side) {
+  const earGroup = new THREE.Group();
+  // Outer ear - long rabbit ear
+  const earGeo = new THREE.CapsuleGeometry(0.12, 1.0, 8, 16);
+  const ear = new THREE.Mesh(earGeo, purpleMat);
+  ear.castShadow = true;
+  earGroup.add(ear);
+  // Inner ear
+  const innerGeo = new THREE.CapsuleGeometry(0.06, 0.7, 8, 16);
+  const inner = new THREE.Mesh(innerGeo, earInnerMat);
+  inner.position.z = 0.05;
+  earGroup.add(inner);
+  
+  earGroup.position.set(side * 0.35, 4.8, 0);
+  earGroup.rotation.z = side * -0.15;
+  return earGroup;
+}
+const leftEar = createEar(-1);
+const rightEar = createEar(1);
+jax.add(leftEar);
+jax.add(rightEar);
+
+// --- BODY ---
+const bodyGeo = new THREE.CapsuleGeometry(0.45, 0.8, 16, 16);
+const body = new THREE.Mesh(bodyGeo, purpleMat);
+body.position.y = 2.4;
+body.castShadow = true;
+jax.add(body);
+
+// Overalls
+const overallGeo = new THREE.CapsuleGeometry(0.47, 0.5, 16, 16);
+const overall = new THREE.Mesh(overallGeo, overallMat);
+overall.position.y = 2.2;
+jax.add(overall);
+
+// Straps
+function createStrap(side) {
+  const strapGeo = new THREE.BoxGeometry(0.08, 0.5, 0.08);
+  const strap = new THREE.Mesh(strapGeo, overallMat);
+  strap.position.set(side * 0.25, 2.7, 0.15);
+  strap.rotation.z = side * 0.1;
+  return strap;
+}
+jax.add(createStrap(-1));
+jax.add(createStrap(1));
+
+// Strap buttons
+function createButton(side) {
+  const btnGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.03, 16);
+  const btn = new THREE.Mesh(btnGeo, yellowMat);
+  btn.position.set(side * 0.28, 2.5, 0.4);
+  btn.rotation.x = Math.PI / 2;
+  return btn;
+}
+jax.add(createButton(-1));
+jax.add(createButton(1));
+
+// --- ARMS ---
+const leftArmGroup = new THREE.Group();
+const rightArmGroup = new THREE.Group();
+
+function createArm() {
+  const armGroup = new THREE.Group();
+  // Upper arm
+  const upperGeo = new THREE.CapsuleGeometry(0.1, 0.5, 8, 16);
+  const upper = new THREE.Mesh(upperGeo, purpleMat);
+  upper.position.y = -0.3;
+  upper.castShadow = true;
+  armGroup.add(upper);
+  // Forearm
+  const foreGeo = new THREE.CapsuleGeometry(0.08, 0.4, 8, 16);
+  const fore = new THREE.Mesh(foreGeo, purpleMat);
+  fore.position.y = -0.7;
+  fore.castShadow = true;
+  armGroup.add(fore);
+  // Hand
+  const handGeo = new THREE.SphereGeometry(0.14, 16, 16);
+  const hand = new THREE.Mesh(handGeo, yellowMat);
+  hand.position.y = -1.0;
+  hand.castShadow = true;
+  armGroup.add(hand);
+  // Fingers
+  for (let i = -1; i <= 1; i++) {
+    const fingerGeo = new THREE.CapsuleGeometry(0.03, 0.1, 4, 8);
+    const finger = new THREE.Mesh(fingerGeo, yellowMat);
+    finger.position.set(i * 0.06, -1.15, 0.05);
+    armGroup.add(finger);
+  }
+  return armGroup;
+}
+
+const leftArm = createArm();
+leftArm.position.set(-0.6, 2.9, 0);
+leftArmGroup.add(leftArm);
+jax.add(leftArmGroup);
+
+const rightArm = createArm();
+rightArm.position.set(0.6, 2.9, 0);
+rightArmGroup.add(rightArm);
+jax.add(rightArmGroup);
+
+// --- LEGS ---
+function createLeg(side) {
+  const legGroup = new THREE.Group();
+  // Upper leg (overall colored)
+  const upperGeo = new THREE.CapsuleGeometry(0.14, 0.5, 8, 16);
+  const upper = new THREE.Mesh(upperGeo, overallMat);
+  upper.position.y = -0.35;
+  upper.castShadow = true;
+  legGroup.add(upper);
+  // Lower leg
+  const lowerGeo = new THREE.CapsuleGeometry(0.12, 0.4, 8, 16);
+  const lower = new THREE.Mesh(lowerGeo, overallMat);
+  lower.position.y = -0.8;
+  lower.castShadow = true;
+  legGroup.add(lower);
+  // Shoe
+  const shoeGeo = new THREE.SphereGeometry(0.18, 16, 16);
+  shoeGeo.scale(1.3, 0.6, 1.6);
+  const shoe = new THREE.Mesh(shoeGeo, shoeMat);
+  shoe.position.set(0, -1.1, 0.08);
+  shoe.castShadow = true;
+  legGroup.add(shoe);
+
+  legGroup.position.set(side * 0.25, 1.7, 0);
+  return legGroup;
+}
+const leftLeg = createLeg(-1);
+const rightLeg = createLeg(1);
+jax.add(leftLeg);
+jax.add(rightLeg);
+
+scene.add(jax);
+
+// --- FLOOR ---
+const floorGeo = new THREE.CircleGeometry(8, 64);
+const floorMat = new THREE.MeshStandardMaterial({ 
+  color: 0x150a30, roughness: 0.8, metalness: 0.2 
+});
+const floor = new THREE.Mesh(floorGeo, floorMat);
+floor.rotation.x = -Math.PI / 2;
+floor.receiveShadow = true;
+scene.add(floor);
+
+// --- PARTICLES ---
+const particleCount = 200;
+const particlesGeo = new THREE.BufferGeometry();
+const positions = new Float32Array(particleCount * 3);
+const colors = new Float32Array(particleCount * 3);
+for (let i = 0; i < particleCount; i++) {
+  positions[i*3] = (Math.random() - 0.5) * 15;
+  positions[i*3+1] = Math.random() * 10;
+  positions[i*3+2] = (Math.random() - 0.5) * 15;
+  const c = new THREE.Color().setHSL(0.75 + Math.random() * 0.1, 0.8, 0.6);
+  colors[i*3] = c.r; colors[i*3+1] = c.g; colors[i*3+2] = c.b;
+}
+particlesGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+particlesGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+const particleMat = new THREE.PointsMaterial({ 
+  size: 0.06, vertexColors: true, transparent: true, opacity: 0.7 
+});
+const particles = new THREE.Points(particlesGeo, particleMat);
+scene.add(particles);
+
+// --- CLAP SOUND ---
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playClap() {
+  const bufferSize = audioCtx.sampleRate * 0.12;
+  const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < bufferSize; i++) {
+    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 4);
+  }
+  const source = audioCtx.createBufferSource();
+  source.buffer = buffer;
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = 'bandpass'; filter.frequency.value = 3500; filter.Q.value = 0.7;
+  const gain = audioCtx.createGain();
+  gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
+  source.connect(filter).connect(gain).connect(audioCtx.destination);
+  source.start();
+}
+
+// Clap particles
+const clapParticles = [];
+function spawnClapParticle() {
+  const geo = new THREE.SphereGeometry(0.05, 8, 8);
+  const mat = new THREE.MeshBasicMaterial({ 
+    color: new THREE.Color().setHSL(0.13, 0.9, 0.6), transparent: true 
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.set(
+    (Math.random() - 0.5) * 0.5,
+    1.9 + Math.random() * 0.3,
+    0.3 + Math.random() * 0.3
+  );
+  mesh.userData.velocity = new THREE.Vector3(
+    (Math.random() - 0.5) * 0.1,
+    Math.random() * 0.08 + 0.03,
+    Math.random() * 0.05
+  );
+  mesh.userData.life = 1;
+  scene.add(mesh);
+  clapParticles.push(mesh);
+}
+
+let soundOn = false;
+let clapSoundInterval = null;
+renderer.domElement.addEventListener('click', () => {
+  soundOn = !soundOn;
+  if (soundOn) {
+    clapSoundInterval = setInterval(playClap, 500);
+    playClap();
+  } else {
+    clearInterval(clapSoundInterval);
+  }
+});
+
+// --- ANIMATION ---
+const clock = new THREE.Clock();
+function animate() {
+  requestAnimationFrame(animate);
+  const t = clock.getElapsedTime();
+
+  // Clapping arms
+  const clapAngle = Math.sin(t * 12) * 0.5;
+  leftArm.rotation.z = 0.6 + clapAngle * 0.6;
+  leftArm.rotation.x = -0.3;
+  rightArm.rotation.z = -0.6 - clapAngle * 0.6;
+  rightArm.rotation.x = -0.3;
+
+  // Spawn clap particles at clap moment
+  if (Math.sin(t * 12) > 0.9) {
+    for (let i = 0; i < 3; i++) spawnClapParticle();
+  }
+
+  // Update clap particles
+  for (let i = clapParticles.length - 1; i >= 0; i--) {
+    const p = clapParticles[i];
+    p.position.add(p.userData.velocity);
+    p.userData.life -= 0.02;
+    p.material.opacity = p.userData.life;
+    p.scale.setScalar(p.userData.life);
+    if (p.userData.life <= 0) {
+      scene.remove(p);
+      p.geometry.dispose();
+      p.material.dispose();
+      clapParticles.splice(i, 1);
+    }
+  }
+
+  // Body bounce
+  jax.position.y = Math.sin(t * 6) * 0.08;
+
+  // Head slight tilt
+  head.rotation.z = Math.sin(t * 3) * 0.05;
+
+  // Ear flop
+  leftEar.rotation.z = -0.15 + Math.sin(t * 6 + 0.5) * 0.08;
+  rightEar.rotation.z = 0.15 - Math.sin(t * 6 + 0.5) * 0.08;
+
+  // Leg bounce
+  leftLeg.rotation.x = Math.sin(t * 6) * 0.1;
+  rightLeg.rotation.x = Math.sin(t * 6 + Math.PI) * 0.1;
+
+  // Wink animation (left eye)
+  const winkCycle = t % 4;
+  if (winkCycle > 3.5) {
+    leftEye.scale.y = 0.1;
+    leftPupil.scale.y = 0.1;
+  } else {
+    leftEye.scale.y = 1;
+    leftPupil.scale.y = 1;
+  }
+
+  // Particles float
+  const posArr = particlesGeo.attributes.position.array;
+  for (let i = 0; i < particleCount; i++) {
+    posArr[i*3+1] += 0.003;
+    if (posArr[i*3+1] > 10) posArr[i*3+1] = 0;
+  }
+  particlesGeo.attributes.position.needsUpdate = true;
+
+  // Purple light pulse
+  purpleLight.intensity = 2 + Math.sin(t * 2) * 0.5;
+
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>
