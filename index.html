@@ -17,277 +17,196 @@ body {
 }
 .container {
   position: relative;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100vw; height: 100vh;
+  display: flex; justify-content: center; align-items: center;
 }
-
-/* Stars background */
-.stars {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-}
+.stars { position: fixed; top:0;left:0;width:100%;height:100%;pointer-events:none; }
 .star {
-  position: absolute;
-  width: 3px; height: 3px;
-  background: #c77dff;
-  border-radius: 50%;
-  animation: twinkle 3s ease-in-out infinite;
+  position: absolute; width:3px;height:3px; background:#c77dff;
+  border-radius:50%; animation: twinkle 3s ease-in-out infinite;
 }
-@keyframes twinkle {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 1; }
-}
+@keyframes twinkle { 0%,100%{opacity:0.3} 50%{opacity:1} }
 
 .title {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: #c77dff;
-  font-size: 2em;
-  text-shadow: 0 0 20px #9d4edd, 0 0 40px #7b2cbf;
-  z-index: 10;
+  position:fixed;top:20px;left:50%;transform:translateX(-50%);
+  color:#c77dff;font-size:2em;
+  text-shadow:0 0 20px #9d4edd,0 0 40px #7b2cbf;
+  z-index:10;pointer-events:none;
   animation: glow 2s ease-in-out infinite alternate;
 }
-@keyframes glow {
-  from { text-shadow: 0 0 10px #9d4edd; }
-  to { text-shadow: 0 0 30px #c77dff, 0 0 60px #7b2cbf; }
-}
+@keyframes glow { from{text-shadow:0 0 10px #9d4edd} to{text-shadow:0 0 30px #c77dff,0 0 60px #7b2cbf} }
 
-/* JAX SVG CHARACTER */
 .jax-wrapper {
-  position: relative;
   animation: float 3s ease-in-out infinite;
-  transform: rotate(15deg);
+  transform: rotate(20deg);
 }
 @keyframes float {
-  0%, 100% { transform: rotate(15deg) translateY(0); }
-  50% { transform: rotate(15deg) translateY(-15px); }
+  0%,100% { transform: rotate(20deg) translateY(0); }
+  50% { transform: rotate(20deg) translateY(-15px); }
 }
 
 svg.jax {
-  width: 320px;
-  height: 450px;
-  filter: drop-shadow(0 0 30px rgba(157, 78, 221, 0.5));
+  width: min(85vw, 380px);
+  height: auto;
+  filter: drop-shadow(0 0 25px rgba(157,78,221,0.4));
 }
 
-/* Ear animation */
-.ear-left {
-  transform-origin: 130px 80px;
-  animation: ear-flop-l 2s ease-in-out infinite;
-}
-.ear-right {
-  transform-origin: 190px 80px;
-  animation: ear-flop-r 2s ease-in-out infinite;
-}
-@keyframes ear-flop-l {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-5deg); }
-}
-@keyframes ear-flop-r {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(5deg); }
-}
+.v-hand { transform-origin: 240px 160px; animation: wave 0.8s ease-in-out infinite; }
+@keyframes wave { 0%,100%{transform:rotate(0)} 50%{transform:rotate(8deg)} }
 
-/* V-sign hand wave */
-.v-hand {
-  transform-origin: 250px 150px;
-  animation: wave 1s ease-in-out infinite;
-}
-@keyframes wave {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(8deg); }
-  75% { transform: rotate(-8deg); }
-}
+.left-arm-g { transform-origin: 100px 200px; animation: arm-swing 2s ease-in-out infinite; }
+@keyframes arm-swing { 0%,100%{transform:rotate(0)} 50%{transform:rotate(5deg)} }
 
-/* Wink */
-.wink-eye {
-  animation: wink 4s ease-in-out infinite;
-}
-@keyframes wink {
-  0%, 85%, 100% { transform: scaleY(1); }
-  90%, 95% { transform: scaleY(0.1); }
-}
+.ear-left { transform-origin: 115px 70px; animation: efl 2s ease-in-out infinite; }
+.ear-right { transform-origin: 205px 70px; animation: efr 2s ease-in-out infinite; }
+@keyframes efl { 0%,100%{transform:rotate(0)} 50%{transform:rotate(-4deg)} }
+@keyframes efr { 0%,100%{transform:rotate(0)} 50%{transform:rotate(4deg)} }
 
-/* Leg kick */
-.left-leg {
-  transform-origin: 130px 310px;
-  animation: kick-l 2s ease-in-out infinite;
-}
-.right-leg {
-  transform-origin: 180px 310px;
-  animation: kick-r 2s ease-in-out infinite;
-}
-@keyframes kick-l {
-  0%, 100% { transform: rotate(5deg); }
-  50% { transform: rotate(-5deg); }
-}
-@keyframes kick-r {
-  0%, 100% { transform: rotate(-3deg); }
-  50% { transform: rotate(3deg); }
-}
+.left-leg-g { transform-origin: 135px 310px; animation: lkl 1.5s ease-in-out infinite; }
+.right-leg-g { transform-origin: 175px 310px; animation: lkr 1.5s ease-in-out infinite; }
+@keyframes lkl { 0%,100%{transform:rotate(8deg)} 50%{transform:rotate(-3deg)} }
+@keyframes lkr { 0%,100%{transform:rotate(-5deg)} 50%{transform:rotate(5deg)} }
 </style>
 </head>
 <body>
 <div class="container">
   <div class="stars" id="stars"></div>
-  <div class="title">✌️ Jax 🐰</div>
+  <div class="title">🐰 Jax ✌️</div>
   
   <div class="jax-wrapper">
-    <svg class="jax" viewBox="0 0 320 450" xmlns="http://www.w3.org/2000/svg">
+    <svg class="jax" viewBox="60 0 210 420" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#9d4edd"/>
-          <stop offset="100%" style="stop-color:#7b2cbf"/>
+        <linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#9d4edd"/>
+          <stop offset="100%" stop-color="#7b2cbf"/>
         </linearGradient>
-        <linearGradient id="darkPurple" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#7b2cbf"/>
-          <stop offset="100%" style="stop-color:#5a1d99"/>
+        <linearGradient id="ei" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#e8b4f8"/>
+          <stop offset="100%" stop-color="#d4a0e8"/>
         </linearGradient>
-        <linearGradient id="overallGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#d4465a"/>
-          <stop offset="100%" style="stop-color:#b83a4c"/>
+        <linearGradient id="og" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#d4465a"/>
+          <stop offset="100%" stop-color="#b83a4c"/>
         </linearGradient>
-        <linearGradient id="yellowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#f5d442"/>
-          <stop offset="100%" style="stop-color:#e6b817"/>
+        <linearGradient id="yg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f5d442"/>
+          <stop offset="100%" stop-color="#e6b817"/>
         </linearGradient>
-        <linearGradient id="earInner" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#e8b4f8"/>
-          <stop offset="100%" style="stop-color:#d4a0e8"/>
+        <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#9d4edd"/>
+          <stop offset="100%" stop-color="#6a2fa0"/>
         </linearGradient>
-        <linearGradient id="shoeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#9d4edd"/>
-          <stop offset="100%" style="stop-color:#6a2fa0"/>
-        </linearGradient>
-        <filter id="shadow">
-          <feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="#00000066"/>
-        </filter>
       </defs>
 
       <!-- LEFT EAR -->
       <g class="ear-left">
-        <ellipse cx="120" cy="40" rx="16" ry="55" fill="url(#purpleGrad)" transform="rotate(-15, 120, 80)"/>
-        <ellipse cx="120" cy="40" rx="8" ry="38" fill="url(#earInner)" transform="rotate(-15, 120, 80)"/>
+        <ellipse cx="115" cy="38" rx="18" ry="52" fill="url(#pg)" transform="rotate(-12,115,70)"/>
+        <ellipse cx="115" cy="38" rx="9" ry="35" fill="url(#ei)" transform="rotate(-12,115,70)"/>
       </g>
 
       <!-- RIGHT EAR -->
       <g class="ear-right">
-        <ellipse cx="200" cy="35" rx="16" ry="55" fill="url(#purpleGrad)" transform="rotate(10, 200, 80)"/>
-        <ellipse cx="200" cy="35" rx="8" ry="38" fill="url(#earInner)" transform="rotate(10, 200, 80)"/>
+        <ellipse cx="205" cy="35" rx="18" ry="52" fill="url(#pg)" transform="rotate(15,205,70)"/>
+        <ellipse cx="205" cy="35" rx="9" ry="35" fill="url(#ei)" transform="rotate(15,205,70)"/>
       </g>
 
       <!-- HEAD -->
-      <ellipse cx="160" cy="130" rx="55" ry="50" fill="url(#purpleGrad)" filter="url(#shadow)"/>
+      <ellipse cx="160" cy="128" rx="52" ry="48" fill="url(#pg)"/>
 
-      <!-- LEFT EYE (winking) -->
-      <g class="wink-eye" style="transform-origin: 140px 120px">
-        <ellipse cx="140" cy="120" rx="16" ry="12" fill="#f5d442"/>
-        <ellipse cx="140" cy="120" rx="8" ry="10" fill="#1a1a2e"/>
-        <ellipse cx="137" cy="116" rx="3" ry="3" fill="white" opacity="0.8"/>
-      </g>
+      <!-- LEFT EYE - winking -->
+      <line x1="128" y1="120" x2="152" y2="118" stroke="#1a1a2e" stroke-width="4" stroke-linecap="round"/>
+      
+      <!-- RIGHT EYE - open -->
+      <ellipse cx="180" cy="116" rx="14" ry="12" fill="#f5d442"/>
+      <circle cx="182" cy="116" r="7" fill="#1a1a2e"/>
+      <circle cx="179" cy="113" r="2.5" fill="white" opacity="0.8"/>
 
-      <!-- RIGHT EYE -->
-      <ellipse cx="180" cy="118" rx="16" ry="14" fill="#f5d442"/>
-      <ellipse cx="182" cy="118" rx="8" ry="11" fill="#1a1a2e"/>
-      <ellipse cx="179" cy="114" rx="3" ry="3" fill="white" opacity="0.8"/>
+      <!-- MOUTH - big grin -->
+      <path d="M135 148 Q160 172 185 148" fill="#2a1040"/>
+      <rect x="152" y="148" width="6" height="9" rx="1" fill="white"/>
+      <rect x="160" y="148" width="6" height="9" rx="1" fill="white"/>
+      <!-- Smirk -->
+      <path d="M185 148 Q192 143 195 137" fill="none" stroke="#5a1d99" stroke-width="2.5" stroke-linecap="round"/>
 
-      <!-- EYEBROW -->
-      <line x1="170" y1="100" x2="195" y2="104" stroke="#5a1d99" stroke-width="4" stroke-linecap="round"/>
+      <!-- NECK area -->
+      <rect x="148" y="170" width="24" height="12" rx="6" fill="url(#pg)"/>
 
-      <!-- BIG GRIN -->
-      <path d="M130 145 Q160 175 190 145" fill="#2a1040" stroke="#2a1040" stroke-width="2"/>
-      <!-- TEETH -->
-      <rect x="148" y="145" width="7" height="10" rx="1" fill="white"/>
-      <rect x="157" y="145" width="7" height="10" rx="1" fill="white"/>
-      <!-- Smirk line -->
-      <path d="M190 145 Q198 140 200 135" fill="none" stroke="#5a1d99" stroke-width="2.5" stroke-linecap="round"/>
-
-      <!-- BODY (purple) -->
-      <ellipse cx="160" cy="210" rx="42" ry="55" fill="url(#purpleGrad)" filter="url(#shadow)"/>
+      <!-- BODY -->
+      <ellipse cx="160" cy="220" rx="40" ry="52" fill="url(#pg)"/>
 
       <!-- OVERALLS -->
-      <path d="M125 220 Q125 280 160 280 Q195 280 195 220 L195 235 Q195 270 160 270 Q125 270 125 235 Z" fill="url(#overallGrad)"/>
-      <!-- Straps -->
-      <rect x="135" y="195" width="8" height="35" rx="3" fill="url(#overallGrad)" transform="rotate(5, 139, 195)"/>
-      <rect x="177" y="195" width="8" height="35" rx="3" fill="url(#overallGrad)" transform="rotate(-5, 181, 195)"/>
+      <path d="M125 230 Q125 278 160 278 Q195 278 195 230 Q195 260 160 265 Q125 260 125 230Z" fill="url(#og)"/>
+      <!-- Straps connected to body -->
+      <path d="M140 198 L135 230" stroke="url(#og)" stroke-width="9" stroke-linecap="round"/>
+      <path d="M180 198 L185 230" stroke="url(#og)" stroke-width="9" stroke-linecap="round"/>
       <!-- Buttons -->
-      <circle cx="138" cy="232" r="4" fill="url(#yellowGrad)"/>
-      <circle cx="182" cy="232" r="4" fill="url(#yellowGrad)"/>
+      <circle cx="137" cy="232" r="4" fill="url(#yg)"/>
+      <circle cx="183" cy="232" r="4" fill="url(#yg)"/>
       <!-- Pocket -->
-      <rect x="148" y="248" width="24" height="15" rx="3" fill="none" stroke="#a03050" stroke-width="1.5"/>
+      <rect x="148" y="250" width="24" height="14" rx="3" fill="none" stroke="#a03050" stroke-width="1.5"/>
 
-      <!-- LEFT ARM (relaxed, going down/back) -->
-      <g>
-        <!-- Upper arm -->
-        <rect x="85" y="190" width="18" height="50" rx="9" fill="url(#purpleGrad)" transform="rotate(30, 94, 190)"/>
+      <!-- LEFT ARM (down, relaxed) -->
+      <g class="left-arm-g">
+        <!-- Upper arm connected to body -->
+        <path d="M122 200 Q105 220 95 245" stroke="url(#pg)" stroke-width="18" stroke-linecap="round" fill="none"/>
         <!-- Forearm -->
-        <rect x="68" y="225" width="15" height="45" rx="7" fill="url(#purpleGrad)" transform="rotate(20, 75, 225)"/>
+        <path d="M95 245 Q88 260 82 275" stroke="url(#pg)" stroke-width="15" stroke-linecap="round" fill="none"/>
         <!-- Hand -->
-        <ellipse cx="62" cy="272" rx="13" ry="11" fill="url(#yellowGrad)"/>
+        <circle cx="80" cy="280" r="12" fill="url(#yg)"/>
       </g>
 
-      <!-- RIGHT ARM (raised up, V sign!) -->
+      <!-- RIGHT ARM (up, V sign!) -->
       <g class="v-hand">
-        <!-- Upper arm -->
-        <rect x="200" y="180" width="18" height="50" rx="9" fill="url(#purpleGrad)" transform="rotate(-45, 209, 180)"/>
+        <!-- Upper arm connected to body -->
+        <path d="M198 200 Q215 185 225 165" stroke="url(#pg)" stroke-width="18" stroke-linecap="round" fill="none"/>
         <!-- Forearm -->
-        <rect x="230" y="145" width="15" height="45" rx="7" fill="url(#purpleGrad)" transform="rotate(-30, 237, 145)"/>
-        <!-- Hand palm -->
-        <ellipse cx="252" cy="118" rx="14" ry="12" fill="url(#yellowGrad)"/>
+        <path d="M225 165 Q232 148 238 132" stroke="url(#pg)" stroke-width="15" stroke-linecap="round" fill="none"/>
+        <!-- Hand -->
+        <circle cx="240" cy="125" r="13" fill="url(#yg)"/>
         
-        <!-- V SIGN FINGERS! ✌️ -->
-        <!-- Index finger -->
-        <rect x="242" y="80" width="8" height="35" rx="4" fill="url(#yellowGrad)" transform="rotate(-12, 246, 97)"/>
-        <!-- Middle finger -->
-        <rect x="256" y="78" width="8" height="35" rx="4" fill="url(#yellowGrad)" transform="rotate(12, 260, 95)"/>
-        <!-- Folded ring finger -->
-        <ellipse cx="265" cy="122" rx="6" ry="5" fill="#e6b817"/>
-        <!-- Thumb -->
-        <ellipse cx="240" cy="124" rx="6" ry="5" fill="#e6b817" transform="rotate(-20, 240, 124)"/>
+        <!-- V SIGN ✌️ -->
+        <rect x="230" y="88" width="7" height="32" rx="3.5" fill="url(#yg)" transform="rotate(-10,233,104)"/>
+        <rect x="244" y="86" width="7" height="32" rx="3.5" fill="url(#yg)" transform="rotate(10,247,102)"/>
+        <!-- Folded fingers -->
+        <circle cx="254" cy="128" r="5" fill="#e6b817"/>
+        <circle cx="228" cy="130" r="5" fill="#e6b817"/>
       </g>
 
-      <!-- LEFT LEG -->
-      <g class="left-leg">
+      <!-- LEFT LEG (kicked out left) -->
+      <g class="left-leg-g">
         <!-- Upper leg -->
-        <rect x="125" y="270" width="22" height="50" rx="10" fill="url(#overallGrad)" transform="rotate(25, 136, 270)"/>
+        <path d="M140 272 Q125 295 112 315" stroke="url(#og)" stroke-width="20" stroke-linecap="round" fill="none"/>
         <!-- Lower leg -->
-        <rect x="108" y="305" width="18" height="45" rx="9" fill="url(#overallGrad)" transform="rotate(15, 117, 305)"/>
+        <path d="M112 315 Q105 335 98 350" stroke="url(#og)" stroke-width="17" stroke-linecap="round" fill="none"/>
         <!-- Shoe -->
-        <ellipse cx="95" cy="352" rx="20" ry="10" fill="url(#shoeGrad)" transform="rotate(15, 95, 352)"/>
+        <ellipse cx="90" cy="358" rx="20" ry="10" fill="url(#sg)" transform="rotate(20,90,358)"/>
       </g>
 
-      <!-- RIGHT LEG -->
-      <g class="right-leg">
+      <!-- RIGHT LEG (kicked out right) -->
+      <g class="right-leg-g">
         <!-- Upper leg -->
-        <rect x="170" y="268" width="22" height="50" rx="10" fill="url(#overallGrad)" transform="rotate(-15, 181, 268)"/>
+        <path d="M180 272 Q192 295 200 315" stroke="url(#og)" stroke-width="20" stroke-linecap="round" fill="none"/>
         <!-- Lower leg -->
-        <rect x="182" y="305" width="18" height="45" rx="9" fill="url(#overallGrad)" transform="rotate(-25, 191, 305)"/>
+        <path d="M200 315 Q208 335 215 350" stroke="url(#og)" stroke-width="17" stroke-linecap="round" fill="none"/>
         <!-- Shoe -->
-        <ellipse cx="200" cy="350" rx="20" ry="10" fill="url(#shoeGrad)" transform="rotate(-20, 200, 350)"/>
+        <ellipse cx="222" cy="358" rx="20" ry="10" fill="url(#sg)" transform="rotate(-15,222,358)"/>
       </g>
     </svg>
   </div>
 </div>
 
 <script>
-// Generate stars
 const starsEl = document.getElementById('stars');
 for (let i = 0; i < 80; i++) {
-  const star = document.createElement('div');
-  star.className = 'star';
-  star.style.left = Math.random() * 100 + '%';
-  star.style.top = Math.random() * 100 + '%';
-  star.style.width = (Math.random() * 3 + 1) + 'px';
-  star.style.height = star.style.width;
-  star.style.animationDelay = (Math.random() * 3) + 's';
-  star.style.animationDuration = (Math.random() * 2 + 2) + 's';
-  starsEl.appendChild(star);
+  const s = document.createElement('div');
+  s.className = 'star';
+  s.style.left = Math.random()*100+'%';
+  s.style.top = Math.random()*100+'%';
+  const sz = (Math.random()*3+1)+'px';
+  s.style.width = sz; s.style.height = sz;
+  s.style.animationDelay = Math.random()*3+'s';
+  s.style.animationDuration = (Math.random()*2+2)+'s';
+  starsEl.appendChild(s);
 }
 </script>
 </body>
