@@ -3,209 +3,363 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Jax ✌️🐰</title>
+<title>The Amazing Digital Circus 🎪</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  background: #0a0a1a;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  overflow: hidden;
-  font-family: 'Segoe UI', sans-serif;
-}
-.container {
-  position: relative;
-  width: 100vw; height: 100vh;
-  display: flex; justify-content: center; align-items: center;
-}
-.stars { position: fixed; top:0;left:0;width:100%;height:100%;pointer-events:none; }
-.star {
-  position: absolute; width:3px;height:3px; background:#c77dff;
-  border-radius:50%; animation: twinkle 3s ease-in-out infinite;
-}
+* { margin:0;padding:0;box-sizing:border-box; }
+body { background:#0a0a1a; overflow-x:hidden; font-family:'Segoe UI',sans-serif; }
+.stars { position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0; }
+.star { position:absolute;width:3px;height:3px;background:#c77dff;border-radius:50%;animation:twinkle 3s ease-in-out infinite; }
 @keyframes twinkle { 0%,100%{opacity:0.3} 50%{opacity:1} }
 
 .title {
-  position:fixed;top:20px;left:50%;transform:translateX(-50%);
-  color:#c77dff;font-size:2em;
-  text-shadow:0 0 20px #9d4edd,0 0 40px #7b2cbf;
-  z-index:10;pointer-events:none;
-  animation: glow 2s ease-in-out infinite alternate;
+  text-align:center;padding:20px;
+  color:#f0c040;font-size:1.6em;font-weight:bold;
+  text-shadow:0 0 20px #f0c040,0 0 40px #e6a817;
+  position:relative;z-index:2;
+  animation: title-glow 2s ease-in-out infinite alternate;
 }
-@keyframes glow { from{text-shadow:0 0 10px #9d4edd} to{text-shadow:0 0 30px #c77dff,0 0 60px #7b2cbf} }
+@keyframes title-glow { from{text-shadow:0 0 10px #f0c040} to{text-shadow:0 0 30px #f0c040,0 0 60px #e6a817} }
 
-.jax-wrapper {
-  animation: float 3s ease-in-out infinite;
-  transform: rotate(20deg);
-}
-@keyframes float {
-  0%,100% { transform: rotate(20deg) translateY(0); }
-  50% { transform: rotate(20deg) translateY(-15px); }
+/* SCENE - scrollable story */
+.scene {
+  position:relative;z-index:1;
+  max-width:500px;margin:0 auto;padding:20px;
+  display:flex;flex-direction:column;align-items:center;gap:30px;
 }
 
-svg.jax {
-  width: min(55vw, 250px);
-  height: auto;
-  filter: drop-shadow(0 0 25px rgba(157,78,221,0.4));
+/* CHARACTER CARDS */
+.char-card {
+  width:90vw;max-width:400px;
+  border-radius:20px;padding:20px;
+  position:relative;overflow:hidden;
+  box-shadow:0 0 30px rgba(0,0,0,0.5);
 }
 
-.v-hand { transform-origin: 240px 160px; animation: wave 0.8s ease-in-out infinite; }
+/* Stage area */
+.stage {
+  width:100%;aspect-ratio:1/1;max-height:350px;
+  position:relative;border-radius:15px;
+  overflow:hidden;margin-bottom:15px;
+}
+
+.char-name {
+  text-align:center;font-size:1.4em;font-weight:bold;
+  margin-bottom:8px;
+}
+.char-desc {
+  text-align:center;font-size:0.85em;opacity:0.8;
+  line-height:1.4;
+}
+
+/* ====== JAX ====== */
+.jax-card { background:linear-gradient(135deg,#1a0533,#2d1b69); }
+.jax-card .char-name { color:#c77dff; }
+.jax-card .char-desc { color:#e0c0ff; }
+
+.jax-stage { background:radial-gradient(circle at 50% 60%,#2d1b69,#0a0a1a); }
+.jax-svg { width:60%;height:auto;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(15deg);animation:jax-float 3s ease-in-out infinite; }
+@keyframes jax-float { 0%,100%{transform:translate(-50%,-50%) rotate(15deg) translateY(0)} 50%{transform:translate(-50%,-50%) rotate(15deg) translateY(-10px)} }
+.jax-svg .v-hand { transform-origin:240px 160px;animation:wave 0.8s ease-in-out infinite; }
 @keyframes wave { 0%,100%{transform:rotate(0)} 50%{transform:rotate(8deg)} }
 
-.left-arm-g { transform-origin: 100px 200px; animation: arm-swing 2s ease-in-out infinite; }
-@keyframes arm-swing { 0%,100%{transform:rotate(0)} 50%{transform:rotate(5deg)} }
+/* ====== POMNI ====== */
+.pomni-card { background:linear-gradient(135deg,#1a0a2e,#2a1545); }
+.pomni-card .char-name { color:#ff6b8a; }
+.pomni-card .char-desc { color:#ffc0d0; }
 
-.ear-left { transform-origin: 115px 70px; animation: efl 2s ease-in-out infinite; }
-.ear-right { transform-origin: 205px 70px; animation: efr 2s ease-in-out infinite; }
-@keyframes efl { 0%,100%{transform:rotate(0)} 50%{transform:rotate(-4deg)} }
-@keyframes efr { 0%,100%{transform:rotate(0)} 50%{transform:rotate(4deg)} }
+.pomni-stage { background:radial-gradient(circle at 50% 60%,#2a1545,#0a0a1a); }
+.pomni-svg { width:55%;height:auto;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);animation:pomni-shake 4s ease-in-out infinite; }
+@keyframes pomni-shake { 0%,100%{transform:translate(-50%,-50%) rotate(0)} 25%{transform:translate(-50%,-50%) rotate(-2deg)} 75%{transform:translate(-50%,-50%) rotate(2deg)} }
 
-.left-leg-g { transform-origin: 135px 310px; animation: lkl 1.5s ease-in-out infinite; }
-.right-leg-g { transform-origin: 175px 310px; animation: lkr 1.5s ease-in-out infinite; }
-@keyframes lkl { 0%,100%{transform:rotate(8deg)} 50%{transform:rotate(-3deg)} }
-@keyframes lkr { 0%,100%{transform:rotate(-5deg)} 50%{transform:rotate(5deg)} }
+/* ====== CAINE ====== */
+.caine-card { background:linear-gradient(135deg,#1a1a00,#2d2d10); }
+.caine-card .char-name { color:#f0c040; }
+.caine-card .char-desc { color:#ffe088; }
+
+.caine-stage { background:radial-gradient(circle at 50% 50%,#2d2d10,#0a0a1a); }
+.caine-svg { width:55%;height:auto;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);animation:caine-spin 6s linear infinite; }
+@keyframes caine-spin { 0%{transform:translate(-50%,-50%) rotate(0)} 100%{transform:translate(-50%,-50%) rotate(360deg)} }
+
+/* ====== STORY BANNER ====== */
+.story-banner {
+  width:90vw;max-width:400px;
+  background:linear-gradient(135deg,#1a0020,#300a40);
+  border:2px solid #f0c040;
+  border-radius:20px;padding:25px;
+  text-align:center;
+  box-shadow:0 0 40px rgba(240,192,64,0.2);
+  position:relative;overflow:hidden;
+}
+.story-banner h2 { color:#f0c040;font-size:1.3em;margin-bottom:12px; }
+.story-banner p { color:#e0c0ff;font-size:0.9em;line-height:1.6; }
+
+/* GLITCH EFFECT */
+.glitch-overlay {
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:100;
+  animation: glitch-flash 8s ease-in-out infinite;
+}
+@keyframes glitch-flash {
+  0%,95%,100% { opacity:0; background:transparent; }
+  96% { opacity:0.3; background:#ff0040; }
+  97% { opacity:0; }
+  98% { opacity:0.2; background:#00ffff; transform:translateX(5px); }
+  99% { opacity:0; transform:translateX(0); }
+}
+
+/* BUG GLITCH TEXT */
+.bug-text {
+  position:fixed;z-index:99;
+  color:#ff0040;font-family:monospace;font-size:0.8em;
+  opacity:0;pointer-events:none;
+  animation: bug-appear 12s ease-in-out infinite;
+}
+.bug-text:nth-child(1) { top:20%;left:5%;animation-delay:0s; }
+.bug-text:nth-child(2) { top:60%;right:5%;animation-delay:4s; }
+.bug-text:nth-child(3) { top:40%;left:50%;animation-delay:8s; }
+@keyframes bug-appear {
+  0%,90%,100% { opacity:0; }
+  92% { opacity:0.8; transform:translateX(0); }
+  94% { opacity:0.6; transform:translateX(-3px); }
+  96% { opacity:0; }
+}
+
+/* DRAMA METER */
+.drama-meter {
+  width:90vw;max-width:400px;
+  background:linear-gradient(135deg,#200a0a,#400a15);
+  border:2px solid #ff4060;
+  border-radius:15px;padding:20px;
+  text-align:center;
+}
+.drama-meter h3 { color:#ff4060;font-size:1.1em;margin-bottom:10px; }
+.meter-bar {
+  width:100%;height:20px;background:#1a0a0a;border-radius:10px;overflow:hidden;
+}
+.meter-fill {
+  height:100%;border-radius:10px;
+  background:linear-gradient(90deg,#f0c040,#ff4060,#ff0040);
+  animation: drama-pulse 3s ease-in-out infinite;
+}
+@keyframes drama-pulse { 0%,100%{width:60%} 50%{width:95%} }
+
+.meter-label { color:#ff8090;font-size:0.8em;margin-top:8px; }
+
+/* TENSION SECTION */
+.tension-card {
+  width:90vw;max-width:400px;
+  background:linear-gradient(135deg,#0a0a1a,#1a0030);
+  border:2px solid #9d4edd;
+  border-radius:20px;padding:25px;
+  position:relative;overflow:hidden;
+}
+.tension-card h3 { color:#c77dff;text-align:center;margin-bottom:15px; }
+.tension-item {
+  display:flex;align-items:center;gap:10px;
+  padding:8px 0;border-bottom:1px solid #2a1545;
+  color:#e0c0ff;font-size:0.85em;
+}
+.tension-item:last-child { border-bottom:none; }
+.tension-emoji { font-size:1.4em; }
+
+/* FOOTER */
+.footer {
+  text-align:center;padding:30px;
+  color:#c77dff55;font-size:0.75em;
+  position:relative;z-index:2;
+}
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="stars" id="stars"></div>
-  <div class="title">🐰 Jax ✌️</div>
-  
-  <div class="jax-wrapper">
-    <svg class="jax" viewBox="60 0 210 420" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#9d4edd"/>
-          <stop offset="100%" stop-color="#7b2cbf"/>
-        </linearGradient>
-        <linearGradient id="ei" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#e8b4f8"/>
-          <stop offset="100%" stop-color="#d4a0e8"/>
-        </linearGradient>
-        <linearGradient id="og" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#d4465a"/>
-          <stop offset="100%" stop-color="#b83a4c"/>
-        </linearGradient>
-        <linearGradient id="yg" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#f5d442"/>
-          <stop offset="100%" stop-color="#e6b817"/>
-        </linearGradient>
-        <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#9d4edd"/>
-          <stop offset="100%" stop-color="#6a2fa0"/>
-        </linearGradient>
-      </defs>
 
-      <!-- LEFT EAR -->
-      <g class="ear-left">
-        <ellipse cx="115" cy="38" rx="18" ry="52" fill="url(#pg)" transform="rotate(-12,115,70)"/>
-        <ellipse cx="115" cy="38" rx="9" ry="35" fill="url(#ei)" transform="rotate(-12,115,70)"/>
-      </g>
+<div class="stars" id="stars"></div>
 
-      <!-- RIGHT EAR -->
-      <g class="ear-right">
-        <ellipse cx="205" cy="35" rx="18" ry="52" fill="url(#pg)" transform="rotate(15,205,70)"/>
-        <ellipse cx="205" cy="35" rx="9" ry="35" fill="url(#ei)" transform="rotate(15,205,70)"/>
-      </g>
+<!-- Glitch effects -->
+<div class="glitch-overlay"></div>
+<div class="bug-text">ERR0R: R3ALITY_N0T_F0UND</div>
+<div class="bug-text">WARN: ABSTRACT10N_DETECTED</div>
+<div class="bug-text">BUG: C41NE.exe HAS ST0PPED</div>
 
-      <!-- HEAD -->
-      <ellipse cx="160" cy="128" rx="52" ry="48" fill="url(#pg)"/>
+<div class="title">🎪 The Amazing Digital Circus 🎪</div>
 
-      <!-- LEFT EYE - winking -->
-      <line x1="128" y1="120" x2="152" y2="118" stroke="#1a1a2e" stroke-width="4" stroke-linecap="round"/>
-      
-      <!-- RIGHT EYE - open -->
-      <ellipse cx="180" cy="116" rx="14" ry="12" fill="#f5d442"/>
-      <circle cx="182" cy="116" r="7" fill="#1a1a2e"/>
-      <circle cx="179" cy="113" r="2.5" fill="white" opacity="0.8"/>
+<div class="scene">
 
-      <!-- MOUTH - big grin -->
-      <path d="M135 148 Q160 172 185 148" fill="#2a1040"/>
-      <rect x="152" y="148" width="6" height="9" rx="1" fill="white"/>
-      <rect x="160" y="148" width="6" height="9" rx="1" fill="white"/>
-      <!-- Smirk -->
-      <path d="M185 148 Q192 143 195 137" fill="none" stroke="#5a1d99" stroke-width="2.5" stroke-linecap="round"/>
-
-      <!-- NECK area -->
-      <rect x="148" y="170" width="24" height="12" rx="6" fill="url(#pg)"/>
-
-      <!-- BODY -->
-      <ellipse cx="160" cy="220" rx="40" ry="52" fill="url(#pg)"/>
-
-      <!-- OVERALLS -->
-      <path d="M125 230 Q125 278 160 278 Q195 278 195 230 Q195 260 160 265 Q125 260 125 230Z" fill="url(#og)"/>
-      <!-- Straps connected to body -->
-      <path d="M140 198 L135 230" stroke="url(#og)" stroke-width="9" stroke-linecap="round"/>
-      <path d="M180 198 L185 230" stroke="url(#og)" stroke-width="9" stroke-linecap="round"/>
-      <!-- Buttons -->
-      <circle cx="137" cy="232" r="4" fill="url(#yg)"/>
-      <circle cx="183" cy="232" r="4" fill="url(#yg)"/>
-      <!-- Pocket -->
-      <rect x="148" y="250" width="24" height="14" rx="3" fill="none" stroke="#a03050" stroke-width="1.5"/>
-
-      <!-- LEFT ARM (down, relaxed) -->
-      <g class="left-arm-g">
-        <!-- Upper arm connected to body -->
-        <path d="M122 200 Q105 220 95 245" stroke="url(#pg)" stroke-width="18" stroke-linecap="round" fill="none"/>
-        <!-- Forearm -->
-        <path d="M95 245 Q88 260 82 275" stroke="url(#pg)" stroke-width="15" stroke-linecap="round" fill="none"/>
-        <!-- Hand -->
-        <circle cx="80" cy="280" r="12" fill="url(#yg)"/>
-      </g>
-
-      <!-- RIGHT ARM (up, V sign!) -->
-      <g class="v-hand">
-        <!-- Upper arm connected to body -->
-        <path d="M198 200 Q215 185 225 165" stroke="url(#pg)" stroke-width="18" stroke-linecap="round" fill="none"/>
-        <!-- Forearm -->
-        <path d="M225 165 Q232 148 238 132" stroke="url(#pg)" stroke-width="15" stroke-linecap="round" fill="none"/>
-        <!-- Hand -->
-        <circle cx="240" cy="125" r="13" fill="url(#yg)"/>
-        
-        <!-- V SIGN ✌️ -->
-        <rect x="230" y="88" width="7" height="32" rx="3.5" fill="url(#yg)" transform="rotate(-10,233,104)"/>
-        <rect x="244" y="86" width="7" height="32" rx="3.5" fill="url(#yg)" transform="rotate(10,247,102)"/>
-        <!-- Folded fingers -->
-        <circle cx="254" cy="128" r="5" fill="#e6b817"/>
-        <circle cx="228" cy="130" r="5" fill="#e6b817"/>
-      </g>
-
-      <!-- LEFT LEG (kicked out left) -->
-      <g class="left-leg-g">
-        <!-- Upper leg -->
-        <path d="M140 272 Q125 295 112 315" stroke="url(#og)" stroke-width="20" stroke-linecap="round" fill="none"/>
-        <!-- Lower leg -->
-        <path d="M112 315 Q105 335 98 350" stroke="url(#og)" stroke-width="17" stroke-linecap="round" fill="none"/>
-        <!-- Shoe -->
-        <ellipse cx="90" cy="358" rx="20" ry="10" fill="url(#sg)" transform="rotate(20,90,358)"/>
-      </g>
-
-      <!-- RIGHT LEG (kicked out right) -->
-      <g class="right-leg-g">
-        <!-- Upper leg -->
-        <path d="M180 272 Q192 295 200 315" stroke="url(#og)" stroke-width="20" stroke-linecap="round" fill="none"/>
-        <!-- Lower leg -->
-        <path d="M200 315 Q208 335 215 350" stroke="url(#og)" stroke-width="17" stroke-linecap="round" fill="none"/>
-        <!-- Shoe -->
-        <ellipse cx="222" cy="358" rx="20" ry="10" fill="url(#sg)" transform="rotate(-15,222,358)"/>
-      </g>
-    </svg>
+  <!-- JAX -->
+  <div class="char-card jax-card">
+    <div class="stage jax-stage">
+      <svg class="jax-svg" viewBox="60 0 210 420" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#9d4edd"/><stop offset="100%" stop-color="#7b2cbf"/></linearGradient>
+          <linearGradient id="ei" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e8b4f8"/><stop offset="100%" stop-color="#d4a0e8"/></linearGradient>
+          <linearGradient id="og" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d4465a"/><stop offset="100%" stop-color="#b83a4c"/></linearGradient>
+          <linearGradient id="yg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f5d442"/><stop offset="100%" stop-color="#e6b817"/></linearGradient>
+          <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#9d4edd"/><stop offset="100%" stop-color="#6a2fa0"/></linearGradient>
+        </defs>
+        <g class="ear-left"><ellipse cx="115" cy="38" rx="18" ry="52" fill="url(#pg)" transform="rotate(-12,115,70)"/><ellipse cx="115" cy="38" rx="9" ry="35" fill="url(#ei)" transform="rotate(-12,115,70)"/></g>
+        <g class="ear-right"><ellipse cx="205" cy="35" rx="18" ry="52" fill="url(#pg)" transform="rotate(15,205,70)"/><ellipse cx="205" cy="35" rx="9" ry="35" fill="url(#ei)" transform="rotate(15,205,70)"/></g>
+        <ellipse cx="160" cy="128" rx="52" ry="48" fill="url(#pg)"/>
+        <line x1="128" y1="120" x2="152" y2="118" stroke="#1a1a2e" stroke-width="4" stroke-linecap="round"/>
+        <ellipse cx="180" cy="116" rx="14" ry="12" fill="#f5d442"/><circle cx="182" cy="116" r="7" fill="#1a1a2e"/><circle cx="179" cy="113" r="2.5" fill="white" opacity="0.8"/>
+        <path d="M135 148 Q160 172 185 148" fill="#2a1040"/><rect x="152" y="148" width="6" height="9" rx="1" fill="white"/><rect x="160" y="148" width="6" height="9" rx="1" fill="white"/>
+        <path d="M185 148 Q192 143 195 137" fill="none" stroke="#5a1d99" stroke-width="2.5" stroke-linecap="round"/>
+        <rect x="148" y="170" width="24" height="12" rx="6" fill="url(#pg)"/>
+        <ellipse cx="160" cy="220" rx="40" ry="52" fill="url(#pg)"/>
+        <path d="M125 230 Q125 278 160 278 Q195 278 195 230 Q195 260 160 265 Q125 260 125 230Z" fill="url(#og)"/>
+        <path d="M140 198 L135 230" stroke="url(#og)" stroke-width="9" stroke-linecap="round"/>
+        <path d="M180 198 L185 230" stroke="url(#og)" stroke-width="9" stroke-linecap="round"/>
+        <circle cx="137" cy="232" r="4" fill="url(#yg)"/><circle cx="183" cy="232" r="4" fill="url(#yg)"/>
+        <g class="left-arm-g"><path d="M122 200 Q105 220 95 245" stroke="url(#pg)" stroke-width="18" stroke-linecap="round" fill="none"/><path d="M95 245 Q88 260 82 275" stroke="url(#pg)" stroke-width="15" stroke-linecap="round" fill="none"/><circle cx="80" cy="280" r="12" fill="url(#yg)"/></g>
+        <g class="v-hand"><path d="M198 200 Q215 185 225 165" stroke="url(#pg)" stroke-width="18" stroke-linecap="round" fill="none"/><path d="M225 165 Q232 148 238 132" stroke="url(#pg)" stroke-width="15" stroke-linecap="round" fill="none"/><circle cx="240" cy="125" r="13" fill="url(#yg)"/><rect x="230" y="88" width="7" height="32" rx="3.5" fill="url(#yg)" transform="rotate(-10,233,104)"/><rect x="244" y="86" width="7" height="32" rx="3.5" fill="url(#yg)" transform="rotate(10,247,102)"/><circle cx="254" cy="128" r="5" fill="#e6b817"/><circle cx="228" cy="130" r="5" fill="#e6b817"/></g>
+        <g><path d="M140 272 Q125 295 112 315" stroke="url(#og)" stroke-width="20" stroke-linecap="round" fill="none"/><path d="M112 315 Q105 335 98 350" stroke="url(#og)" stroke-width="17" stroke-linecap="round" fill="none"/><ellipse cx="90" cy="358" rx="20" ry="10" fill="url(#sg)" transform="rotate(20,90,358)"/></g>
+        <g><path d="M180 272 Q192 295 200 315" stroke="url(#og)" stroke-width="20" stroke-linecap="round" fill="none"/><path d="M200 315 Q208 335 215 350" stroke="url(#og)" stroke-width="17" stroke-linecap="round" fill="none"/><ellipse cx="222" cy="358" rx="20" ry="10" fill="url(#sg)" transform="rotate(-15,222,358)"/></g>
+      </svg>
+    </div>
+    <div class="char-name">🐰 Jax — הטרול</div>
+    <div class="char-desc">הארנב הסגול שלא מפסיק לצחוק. תמיד עושה צרות, תמיד עם חיוך. הוא יודע משהו שאף אחד לא יודע... ✌️</div>
   </div>
+
+  <!-- POMNI -->
+  <div class="char-card pomni-card">
+    <div class="stage pomni-stage">
+      <svg class="pomni-svg" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="pomni-hat1" x1="0%" y1="0%" x2="100%"><stop offset="0%" stop-color="#ff3366"/><stop offset="50%" stop-color="#ff3366"/><stop offset="50%" stop-color="#3366ff"/><stop offset="100%" stop-color="#3366ff"/></linearGradient>
+          <linearGradient id="pomni-skin" x1="0%" y1="0%" x2="100%"><stop offset="0%" stop-color="#ffe0c0"/><stop offset="100%" stop-color="#ffd0a0"/></linearGradient>
+          <linearGradient id="pomni-body1" x1="0%" y1="0%" x2="100%"><stop offset="0%" stop-color="#ff3366"/><stop offset="50%" stop-color="#ff3366"/><stop offset="50%" stop-color="#3366ff"/><stop offset="100%" stop-color="#3366ff"/></linearGradient>
+        </defs>
+        <!-- Hat -->
+        <path d="M110 95 L150 30 L190 95" fill="url(#pomni-hat1)"/>
+        <circle cx="150" cy="28" r="10" fill="#f0c040"/>
+        <!-- Head -->
+        <ellipse cx="150" cy="130" rx="48" ry="42" fill="url(#pomni-skin)"/>
+        <!-- Eyes - panicked! -->
+        <ellipse cx="132" cy="122" rx="15" ry="18" fill="white"/>
+        <circle cx="132" cy="125" r="8" fill="#1a1a2e"/>
+        <circle cx="130" cy="122" r="3" fill="white"/>
+        <ellipse cx="168" cy="122" rx="15" ry="18" fill="white"/>
+        <circle cx="168" cy="125" r="8" fill="#1a1a2e"/>
+        <circle cx="166" cy="122" r="3" fill="white"/>
+        <!-- Worried eyebrows -->
+        <line x1="120" y1="102" x2="140" y2="106" stroke="#8b4513" stroke-width="3" stroke-linecap="round"/>
+        <line x1="160" y1="106" x2="180" y2="102" stroke="#8b4513" stroke-width="3" stroke-linecap="round"/>
+        <!-- Small worried mouth -->
+        <ellipse cx="150" cy="150" rx="8" ry="5" fill="#2a1040"/>
+        <!-- Blush -->
+        <ellipse cx="122" cy="142" rx="8" ry="5" fill="#ff8080" opacity="0.4"/>
+        <ellipse cx="178" cy="142" rx="8" ry="5" fill="#ff8080" opacity="0.4"/>
+        <!-- Body - jester outfit -->
+        <ellipse cx="150" cy="215" rx="38" ry="50" fill="url(#pomni-body1)"/>
+        <!-- Collar -->
+        <path d="M115 175 Q130 190 150 185 Q170 190 185 175" fill="#f0c040" stroke="#e6a817" stroke-width="1"/>
+        <!-- Arms -->
+        <path d="M115 195 Q95 210 85 235" stroke="url(#pomni-body1)" stroke-width="16" stroke-linecap="round" fill="none"/>
+        <circle cx="82" cy="240" r="10" fill="url(#pomni-skin)"/>
+        <path d="M185 195 Q205 210 215 235" stroke="url(#pomni-body1)" stroke-width="16" stroke-linecap="round" fill="none"/>
+        <circle cx="218" cy="240" r="10" fill="url(#pomni-skin)"/>
+        <!-- Legs -->
+        <path d="M135 260 Q130 290 125 320" stroke="url(#pomni-body1)" stroke-width="18" stroke-linecap="round" fill="none"/>
+        <ellipse cx="120" cy="328" rx="18" ry="10" fill="#ff3366"/>
+        <path d="M165 260 Q170 290 175 320" stroke="url(#pomni-body1)" stroke-width="18" stroke-linecap="round" fill="none"/>
+        <ellipse cx="180" cy="328" rx="18" ry="10" fill="#3366ff"/>
+        <!-- Panic lines -->
+        <line x1="95" y1="105" x2="85" y2="95" stroke="#ff6b8a" stroke-width="2" opacity="0.6"><animate attributeName="opacity" values="0;0.8;0" dur="2s" repeatCount="indefinite"/></line>
+        <line x1="205" y1="105" x2="215" y2="95" stroke="#ff6b8a" stroke-width="2" opacity="0.6"><animate attributeName="opacity" values="0;0.8;0" dur="2s" repeatCount="indefinite" begin="0.5s"/></line>
+        <line x1="100" y1="115" x2="88" y2="112" stroke="#ff6b8a" stroke-width="2" opacity="0.6"><animate attributeName="opacity" values="0;0.6;0" dur="1.5s" repeatCount="indefinite" begin="1s"/></line>
+      </svg>
+    </div>
+    <div class="char-name">🤡 Pomni — הבהולה</div>
+    <div class="char-desc">הנערה עם כובע הליצן שנלכדה בקרקס הדיגיטלי. תמיד בפאניקה, תמיד מנסה לברוח. האם היא תמצא את הדרך החוצה? 😰</div>
+  </div>
+
+  <!-- CAINE -->
+  <div class="char-card caine-card">
+    <div class="stage caine-stage">
+      <svg class="caine-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <!-- Caine - the floating teeth/head ringmaster -->
+        <!-- Outer glow -->
+        <circle cx="150" cy="150" r="80" fill="none" stroke="#f0c040" stroke-width="2" opacity="0.3">
+          <animate attributeName="r" values="80;90;80" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.3;0.6;0.3" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <!-- Main head shape - like a set of teeth/jaw -->
+        <ellipse cx="150" cy="140" rx="55" ry="50" fill="#f5d442"/>
+        <ellipse cx="150" cy="140" rx="50" ry="45" fill="#ffe680"/>
+        <!-- Top hat -->
+        <rect x="115" y="68" width="70" height="30" rx="5" fill="#2a1a40"/>
+        <rect x="105" y="92" width="90" height="10" rx="3" fill="#2a1a40"/>
+        <rect x="130" y="75" width="40" height="5" rx="2" fill="#f0c040"/>
+        <!-- Eyes - swirly/crazy -->
+        <circle cx="130" cy="130" r="15" fill="white"/>
+        <circle cx="130" cy="130" r="8" fill="#1a1a2e">
+          <animateTransform attributeName="transform" type="rotate" values="0 130 130;360 130 130" dur="4s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="170" cy="130" r="15" fill="white"/>
+        <circle cx="170" cy="130" r="8" fill="#1a1a2e">
+          <animateTransform attributeName="transform" type="rotate" values="360 170 130;0 170 130" dur="4s" repeatCount="indefinite"/>
+        </circle>
+        <!-- Big grin with teeth -->
+        <path d="M115 160 Q150 200 185 160" fill="#2a1040"/>
+        <!-- Individual teeth -->
+        <rect x="120" y="160" width="10" height="12" rx="2" fill="white"/>
+        <rect x="132" y="160" width="10" height="14" rx="2" fill="white"/>
+        <rect x="144" y="160" width="12" height="15" rx="2" fill="white"/>
+        <rect x="158" y="160" width="10" height="14" rx="2" fill="white"/>
+        <rect x="170" y="160" width="10" height="12" rx="2" fill="white"/>
+        <!-- Bowtie -->
+        <polygon points="135,195 150,205 165,195 165,215 150,205 135,215" fill="#ff3366"/>
+        <circle cx="150" cy="205" r="5" fill="#f0c040"/>
+        <!-- Floating sparkles -->
+        <text x="80" y="120" fill="#f0c040" font-size="16">✨</text>
+        <text x="210" y="130" fill="#f0c040" font-size="14">⭐</text>
+        <text x="90" y="200" fill="#f0c040" font-size="12">✨</text>
+        <text x="200" y="100" fill="#f0c040" font-size="18">✨</text>
+      </svg>
+    </div>
+    <div class="char-name">🎩 Caine — מנהל הקרקס</div>
+    <div class="char-desc">השיניים המרחפות שמנהלות את הכל! יוצר הרפתקאות מטורפות, קובע את הכללים, ולפעמים... משתגע לגמרי. "ADVENTURE TIME!" 🎪⚡</div>
+  </div>
+
+  <!-- STORY BANNER -->
+  <div class="story-banner">
+    <h2>🎭 הקרקס הדיגיטלי המדהים</h2>
+    <p>
+      הם לכודים בעולם דיגיטלי מטורף 🌀<br>
+      Caine יוצר הרפתקאות חדשות כל יום 🎪<br>
+      באגים מוזרים צצים מכל מקום 🐛<br>
+      Pomni מנסה לברוח... Jax נהנה מהכאוס 😈<br>
+      והדרמה? היא רק מתחילה... 🔥
+    </p>
+  </div>
+
+  <!-- DRAMA METER -->
+  <div class="drama-meter">
+    <h3>🔥 מד הדרמה 🔥</h3>
+    <div class="meter-bar"><div class="meter-fill"></div></div>
+    <div class="meter-label">⚠️ רמת דרמה: קריטית! ⚠️</div>
+  </div>
+
+  <!-- TENSION SECTION -->
+  <div class="tension-card">
+    <h3>⚡ מה קורה בקרקס ⚡</h3>
+    <div class="tension-item"><span class="tension-emoji">🐛</span> באגים מוזרים משתלטים על העולם</div>
+    <div class="tension-item"><span class="tension-emoji">😱</span> Pomni מגלה סוד מצמרר על Caine</div>
+    <div class="tension-item"><span class="tension-emoji">🐰</span> Jax יודע יותר ממה שהוא מראה</div>
+    <div class="tension-item"><span class="tension-emoji">🎪</span> ההרפתקה הבאה תשנה הכל</div>
+    <div class="tension-item"><span class="tension-emoji">💀</span> מה באמת קורה כשמישהו עובר Abstraction?</div>
+    <div class="tension-item"><span class="tension-emoji">🔥</span> פרק 9 — הכל ישתנה ב-4 ביוני!</div>
+  </div>
+
 </div>
 
+<div class="footer">🎪 The Amazing Digital Circus Fan Page 🐰✌️</div>
+
 <script>
-const starsEl = document.getElementById('stars');
-for (let i = 0; i < 80; i++) {
-  const s = document.createElement('div');
-  s.className = 'star';
-  s.style.left = Math.random()*100+'%';
-  s.style.top = Math.random()*100+'%';
-  const sz = (Math.random()*3+1)+'px';
-  s.style.width = sz; s.style.height = sz;
-  s.style.animationDelay = Math.random()*3+'s';
-  s.style.animationDuration = (Math.random()*2+2)+'s';
+const starsEl=document.getElementById('stars');
+for(let i=0;i<100;i++){
+  const s=document.createElement('div');s.className='star';
+  s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+  const sz=(Math.random()*3+1)+'px';s.style.width=sz;s.style.height=sz;
+  s.style.animationDelay=Math.random()*3+'s';s.style.animationDuration=(Math.random()*2+2)+'s';
   starsEl.appendChild(s);
 }
 </script>
